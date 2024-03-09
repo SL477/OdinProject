@@ -32,8 +32,8 @@ h2 {
     background-color: var(--quoteSectionColor);
     color: var(--quoteTextColor);
     text-align: center;
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
 
 .quoteSectionCitation {
@@ -52,8 +52,8 @@ q {
     margin-top: auto;
     margin-bottom: auto;
     padding-left: 5%;
-    padding-bottom: 5%;
-    padding-top: 5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
 }
 
 .row:after {
@@ -64,8 +64,8 @@ q {
 
 .pictureSection {
     margin: auto auto;
-    padding-top: 5%;
-    padding-bottom: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
 
 .colTrio {
@@ -78,4 +78,53 @@ q {
 
 .colTrio img {
     border-radius: 3px;
+}
+
+.callToAction {
+    background-color: var(--callToActionColor);
+    border-radius: 5px;
+}
+
+.callToActionOuter {
+    padding: 1%;
+}
+
+.callToAction h3 {
+    color: var(--mainHeroTextColor);
+}
+
+.callToAction p {
+    color: var(--heroSecondaryTextColor);
+}
+
+.column75 {
+    float: left;
+    width: 75%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+.column25 {
+    float: left;
+    width: 25%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+footer {
+    background-color: var(--darkBackground);
+    color: var(--heroSecondaryTextColor);
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+body {
+    overflow-x: hidden;
 }
