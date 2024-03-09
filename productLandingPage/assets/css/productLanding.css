@@ -1,0 +1,81 @@
+:root {
+    --darkBackground: #1f2937;
+    --mainHeroTextColor: #f9faf8;
+    --heroSecondaryTextColor: #e5e7eb;
+    --callToActionColor: #3882f6;
+    --informationHeaderTextColor: #1f2937;
+    --quoteSectionColor: #e5e7eb;
+    --quoteTextColor: #1f2937;
+}
+
+header {
+    background-color: var(--darkBackground);
+}
+
+h1 {
+    color: var(--mainHeroTextColor);
+}
+
+header p {
+    color: var(--heroSecondaryTextColor);
+}
+
+h2 {
+    font-weight: bolder;
+    font-size: 36px;
+    color: var(--informationHeaderTextColor);
+    text-align: center;
+    padding-bottom: 2%;
+}
+
+.quoteSection {
+    background-color: var(--quoteSectionColor);
+    color: var(--quoteTextColor);
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.quoteSectionCitation {
+    text-align: right;
+    padding-right: 15%;
+}
+
+q {
+    font-style: italic;
+    font-size: 36px;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 5%;
+    padding-bottom: 5%;
+    padding-top: 5%;
+}
+
+.row:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.pictureSection {
+    margin: auto auto;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.colTrio {
+    float: left;
+    width: 33%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.colTrio img {
+    border-radius: 3px;
+}
