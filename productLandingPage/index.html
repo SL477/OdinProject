@@ -33,7 +33,12 @@
                         field and the STC was rumoured to have been discovered
                         by the Primarch himself.
                     </p>
-                    <button type="button" class="btn btn-primary">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#infoModal"
+                    >
                         Sign up
                     </button>
                 </div>
@@ -114,7 +119,12 @@
                         </p>
                     </div>
                     <div class="column25">
-                        <button type="button" class="btn btn-primary">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#infoModal"
+                        >
                             Sign up
                         </button>
                     </div>
@@ -122,8 +132,43 @@
             </div>
         </main>
         <footer>
-            Copyright &copy; The Odin Project &amp; Games Workshop &amp; Tom
-            Fishwick <span id="currentYear"></span>
+            Copyright &copy; The Odin Project, Games Workshop &amp; Tom Fishwick
+            <span id="currentYear"></span>
         </footer>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="infoModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">How to get one of your own</h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-bs-dismiss="modal"
+                            aria-label="close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            I got the shell from Budget Modal Railways. The
+                            chassis is from Kato. The paints are Citadel
+                            (Ultramarines Blue over Macragge Blue for the most
+                            part).
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-seconday"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
