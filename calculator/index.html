@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Calculator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            href="https://link477.com/assets/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <script
+            src="https://link477.com/assets/js/bootstrap.bundle.min.js"
+            async
+        ></script>
+        <script src="https://link477.com/assets/js/components/my-navbar.js"></script>
+        <link rel="icon" href="https://link477.com/assets/images/link477.png" />
+        <script src="./calculator.js" defer></script>
+        <link href="./calculator.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <my-navbar></my-navbar><br />
+            <br />
+            <br />
+        </header>
+        <main class="container-fluid">
+            <div class="calculatorContainer">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td id="result" colspan="4">0</td>
+                        </tr>
+                        <tr>
+                            <td id="num1" colspan="4">0</td>
+                        </tr>
+                        <tr>
+                            <td id="num2" colspan="4">0</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button">AC</button>
+                            </td>
+                            <td>
+                                <button type="button">+/-</button>
+                            </td>
+                            <td>
+                                <button type="button">%</button>
+                            </td>
+                            <td>
+                                <button type="button">/</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button">7</button>
+                            </td>
+                            <td>
+                                <button type="button">8</button>
+                            </td>
+                            <td>
+                                <button type="button">9</button>
+                            </td>
+                            <td>
+                                <button type="button">X</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button">4</button>
+                            </td>
+                            <td>
+                                <button type="button">5</button>
+                            </td>
+                            <td>
+                                <button type="button">6</button>
+                            </td>
+                            <td>
+                                <button type="button">-</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button">1</button>
+                            </td>
+                            <td>
+                                <button type="button">2</button>
+                            </td>
+                            <td>
+                                <button type="button">3</button>
+                            </td>
+                            <td>
+                                <button type="button">+</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button">0</button>
+                            </td>
+                            <td>
+                                <button type="button">.</button>
+                            </td>
+                            <td>
+                                <button type="button">=</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </body>
+</html>
