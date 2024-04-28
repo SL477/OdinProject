@@ -1,0 +1,44 @@
+table {
+    width: 100%;
+    border: 1px solid black;
+    background-color: darkgray;
+    border-radius: 5px;
+    transform: translateY(75%);
+}
+
+td {
+    border: 1px solid black;
+}
+
+table button {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.calculatorContainer {
+    width: 70%;
+    min-width: 200px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.operator {
+    background-color: orange;
+}
+
+.number {
+    background-color: lightskyblue;
+}
+
+#dot,
+#equals {
+    background-color: gold;
+}
+
+#num1,
+#num2,
+#result {
+    text-align: right;
+    background-color: lightgrey;
+}
