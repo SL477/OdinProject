@@ -72,6 +72,23 @@ function SetNumber(num) {
 }
 
 /**
+ * Undo the last bit of text
+ */
+function runBackspace() {
+    let currentNum = (isNum1 ? num1 : num2).textContent;
+    if (currentNum !== '0' && currentNum.length > 1) {
+        if (currentNum === '-0') {
+            currentNum = '0';
+        } else {
+            currentNum = currentNum.substring(0, currentNum.length - 1);
+        }
+    } else {
+        currentNum = '0';
+    }
+    (isNum1 ? num1 : num2).textContent = currentNum;
+}
+
+/**
  * This is what happens when the decimal button is clicked
  */
 function SetDot() {
@@ -111,6 +128,41 @@ function runAllClear() {
 }
 
 /**
+ * Keyboard support for calculator
+ * @param {KeyboardEvent} ev
+ */
+function keyboardEntry(ev) {
+    const keyMap = {
+        '/': 'divide',
+        x: 'multiply',
+        '*': 'multiply',
+        d: 'divide',
+        '-': 'subtract',
+        s: 'subtract',
+        '+': 'add',
+        a: 'add',
+        '=': 'equals',
+        e: 'equals',
+        Enter: 'equals',
+        Delete: 'allClear',
+        '.': 'dot',
+    };
+    if (/[0-9]/.test(ev.key)) {
+        const btn = document.getElementById(`btn${ev.key}`);
+        if (btn) {
+            btn.click();
+        }
+    } else if (Object.prototype.hasOwnProperty.call(keyMap, ev.key)) {
+        const btn = document.getElementById(keyMap[ev.key]);
+        if (btn) {
+            btn.click();
+        }
+    } else if (ev.key === 'Backspace') {
+        runBackspace();
+    }
+}
+
+/**
  * Add the event listeners to the buttons
  */
 function startUp() {
@@ -147,6 +199,11 @@ function startUp() {
     const allClear = document.getElementById('allClear');
     if (allClear) {
         allClear.addEventListener('click', runAllClear);
+    }
+
+    const calculator = document.getElementById('calculatorContainer');
+    if (calculator) {
+        calculator.addEventListener('keyup', keyboardEntry);
     }
 }
 
