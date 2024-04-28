@@ -13,15 +13,24 @@ function runOperator(operator) {
         selectedOperator = operator;
         isNum1 = false;
     } else {
-        const num1Number = parseFloat(num1.textContent);
-        const num2Number = parseFloat(num2.textContent);
-        const resultNumber = operate(selectedOperator, num1Number, num2Number);
-        num1.textContent = resultNumber.toString();
-        result.textContent = resultNumber.toString();
-        isNum1 = false;
+        runEquals();
         selectedOperator = operator;
-        num2.textContent = '0';
     }
+}
+
+/**
+ * This is what happens when the equals button is pressed
+ */
+function runEquals() {
+    const num1Number = parseFloat(num1.textContent);
+    const num2Number = parseFloat(num2.textContent);
+    const resultNumber = operate(selectedOperator, num1Number, num2Number);
+    result.textContent = resultNumber.toString();
+    isNum1 = false;
+    selectedOperator = undefined;
+    num2.textContent = '0';
+    num1.textContent = resultNumber.toString();
+    return resultNumber;
 }
 
 /** Calculate the result
@@ -53,17 +62,6 @@ function operate(operator, num1, num2) {
  * @param {number} num
  */
 function SetNumber(num) {
-    console.log('SetNumber', num);
-    // if (isNum1) {
-    //     if (num1.textContent === '0') {
-    //         num1.textContent = num.toString();
-    //     } else {
-    //         num1.textContent += num.toString();
-    //     }
-    // } else {
-    //     num2.textContent += num.toString();
-    // }
-
     let currentNum = (isNum1 ? num1 : num2).textContent;
     if (currentNum === '0') {
         currentNum = num.toString();
@@ -102,6 +100,17 @@ function setPlusMinus() {
 }
 
 /**
+ * Clear everything
+ */
+function runAllClear() {
+    selectedOperator = undefined;
+    isNum1 = true;
+    result.textContent = '0';
+    num1.textContent = '0';
+    num2.textContent = '0';
+}
+
+/**
  * Add the event listeners to the buttons
  */
 function startUp() {
@@ -128,6 +137,16 @@ function startUp() {
         if (opBtn) {
             opBtn.addEventListener('click', () => runOperator(op));
         }
+    }
+
+    const equals = document.getElementById('equals');
+    if (equals) {
+        equals.addEventListener('click', runEquals);
+    }
+
+    const allClear = document.getElementById('allClear');
+    if (allClear) {
+        allClear.addEventListener('click', runAllClear);
     }
 }
 
