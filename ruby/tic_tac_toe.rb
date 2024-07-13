@@ -1,10 +1,14 @@
-# rubocop:disable
+# TicTacToe Game # rubocop:disable Style/FrozenStringLiteralComment
+# rubocop:disable Style/GlobalVars
+# rubocop:disable Metrics/MethodLength
 $x = 'X'
 $o = 'O'
 $board = %w[0 1 2 3 4 5 6 7 8]
 
+# Get information about the run
 class TestPlayInfo
   attr_accessor :score, :index
+
   def initialize(score, index)
     @score = score
     @index = index
@@ -37,7 +41,7 @@ def human_move
   $board[human_move] = $human_mark
 end
 
-def check_if_winner_found(current_board_state, current_mark)
+def check_if_winner_found(current_board_state, current_mark) # rubocop:disable Metrics/PerceivedComplexity,Metrics/AbcSize,Metrics/CyclomaticComplexity
   (current_board_state[0] == current_mark && current_board_state[1] == current_mark && current_board_state[2] == current_mark) || # rubocop:disable Layout/LineLength
     (current_board_state[3] == current_mark && current_board_state[4] == current_mark && current_board_state[5] == current_mark) || # rubocop:disable Layout/LineLength
     (current_board_state[6] == current_mark && current_board_state[7] == current_mark && current_board_state[8] == current_mark) || # rubocop:disable Layout/LineLength
@@ -48,7 +52,7 @@ def check_if_winner_found(current_board_state, current_mark)
     (current_board_state[2] == current_mark && current_board_state[4] == current_mark && current_board_state[6] == current_mark) # rubocop:disable Layout/LineLength
 end
 
-def mini_max(current_board_state_old, current_mark)
+def mini_max(current_board_state_old, current_mark) # rubocop:disable Metrics/PerceivedComplexity,Metrics/AbcSize,Metrics/CyclomaticComplexity
   current_board_state = current_board_state_old.map(&:clone)
   # step 8
   available_cells_indexes = all_empty_cells_indexes(current_board_state)
@@ -58,7 +62,7 @@ def mini_max(current_board_state_old, current_mark)
     return TestPlayInfo.new(-1, -1)
   elsif check_if_winner_found(current_board_state, $ai_mark)
     return TestPlayInfo.new(1, -1)
-  elsif available_cells_indexes.length == 0
+  elsif available_cells_indexes.empty?
     return TestPlayInfo.new(0, -1)
   end
 
@@ -70,16 +74,16 @@ def mini_max(current_board_state_old, current_mark)
     current_test_play_info = TestPlayInfo.new(0, current_board_state[Integer(available_cells_indexes[i])])
     current_board_state[Integer(available_cells_indexes[i])] = current_mark
 
-    if (current_mark == $ai_mark)
+    if current_mark == $ai_mark
       result = mini_max(current_board_state, $human_mark)
-      current_test_play_info.score = result.score
+      current_test_play_info.score = result.score # rubocop:disable Style/IdenticalConditionalBranches
     else
       result = mini_max(current_board_state, $ai_mark)
-      current_test_play_info.score = result.score
+      current_test_play_info.score = result.score # rubocop:disable Style/IdenticalConditionalBranches
     end
 
     # step 12
-    current_board_state[Integer(available_cells_indexes[i])] = current_test_play_info.index;
+    current_board_state[Integer(available_cells_indexes[i])] = current_test_play_info.index
 
     all_test_play_infos.push(current_test_play_info)
   end
@@ -89,28 +93,28 @@ def mini_max(current_board_state_old, current_mark)
 
   # step 16
   if current_mark == $ai_mark
-    best_score = -1000000000000000000000000000000000000000
+    best_score = -1000000000000000000000000000000000000000 # rubocop:disable Style/NumericLiterals
     (0..(all_test_play_infos.length - 1)).each do |i|
-      if all_test_play_infos[i].score > best_score 
+      if all_test_play_infos[i].score > best_score
         best_score = all_test_play_infos[i].score
-        best_test_play = i   
+        best_test_play = i
       end
     end
   else
-    best_score = 1000000000000000000000000000000000000000
+    best_score = 1000000000000000000000000000000000000000 # rubocop:disable Style/NumericLiterals
     (0..(all_test_play_infos.length - 1)).each do |i|
-      if all_test_play_infos[i].score < best_score 
+      if all_test_play_infos[i].score < best_score
         best_score = all_test_play_infos[i].score
-        best_test_play = i   
+        best_test_play = i
       end
     end
   end
 
   # step 17
-  return all_test_play_infos[best_test_play]
+  return all_test_play_infos[best_test_play] # rubocop:disable Style/RedundantReturn
 end
 
-def run_game
+def run_game # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
   stop = false
   until stop
 
@@ -130,8 +134,8 @@ def run_game
     end
 
     ai_move = mini_max($board, $ai_mark)
-    
-    if Integer(ai_move.index) > -1 && ($board[Integer(ai_move.index)] != $x && $board[Integer(ai_move.index)] != $o) 
+
+    if Integer(ai_move.index) > -1 && ($board[Integer(ai_move.index)] != $x && $board[Integer(ai_move.index)] != $o)
       $board[Integer(ai_move.index)] = $ai_mark
     else
       $board[Integer(available_cells_indexes[0])] = $ai_mark
@@ -154,7 +158,7 @@ end
 
 puts 'Choose whether you would like to play as X or O:'
 $human_mark = gets
-$human_mark = $human_mark.strip()
+$human_mark = $human_mark.strip
 
 if $human_mark.downcase == 'x'
   $ai_mark = $o
@@ -168,4 +172,5 @@ puts "Human: #{$human_mark}, AI: #{$ai_mark}"
 print_board
 run_game
 
-# rubocop:enable
+# rubocop:enable Style/GlobalVars
+# rubocop:enable Metrics/MethodLength
