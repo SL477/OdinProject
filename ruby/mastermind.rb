@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
-def human_input
+def human_input(setter) # rubocop:disable Metrics/MethodLength
   valid = false
   until valid
-    puts 'Enter a guess:'
+    if setter
+      puts 'Set the code'
+    else
+      puts 'Enter a guess:'
+    end
     input = gets
     input = input.strip
     valid = /([1-6]){4}/.match(input) && input.length == 4
@@ -36,13 +40,21 @@ def guess_feedback(secret_code, guess) # rubocop:disable Metrics/MethodLength
   feedback
 end
 
-def game # rubocop:disable Metrics/MethodLength
+def game(human_setter) # rubocop:disable Metrics/MethodLength
   stop = false
   guess_number = 0
   secret_code = random_guess
+
+  secret_code = human_input(human_setter) if human_setter
+
   until stop
     guess_number += 1
-    guess = human_input
+    guess = if human_setter
+              random_guess
+            else
+              human_input(false)
+            end
+
     if secret_code == guess
       stop = true
       puts 'You won!'
@@ -59,4 +71,15 @@ end
 
 puts 'Mastermind!'
 puts 'Guess 4 numbers of 1-6'
-game
+valid = false
+human_setter = false
+until valid
+  puts '1 - Be the guesser'
+  puts '2 - Set the code'
+  choice = gets
+  choice = choice.strip
+  valid = %w[1 2].include?(choice)
+  human_setter = true if choice == '2'
+end
+
+game(human_setter)
