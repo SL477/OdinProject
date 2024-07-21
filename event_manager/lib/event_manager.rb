@@ -40,6 +40,15 @@ def save_thank_you_letter(id, form_letter)
   end
 end
 
+def clean_phone(phone_number)
+  phone_number = phone_number.to_s
+  if phone_number.length == 10
+    phone_number
+  elsif phone_number.length == 11 && phone_number[0] == '1'
+    phone_number[1..11]
+  end
+end
+
 puts 'Event Manager Initialized!'
 
 # contents = File.read('event_attendees.csv')
@@ -62,7 +71,11 @@ contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
+  phone = clean_phone(row[:homephone])
   legislators = legislators_by_zipcode(zipcode)
+  reg_time = DateTime.strptime(row[:regdate], '%m/%e/%C %H:%M')
+  hour = reg_time.hour
+  weekday = reg_time.wday
 
   # personal_letter = template_letter.gsub('FIRST_NAME', name)
   # personal_letter.gsub!('LEGISLATORS', legislators)
@@ -73,4 +86,5 @@ contents.each do |row|
   form_letter = erb_template.result(binding)
 
   save_thank_you_letter(id, form_letter)
+  puts "#{phone} hour #{hour} day #{weekday}"
 end
