@@ -2,43 +2,15 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    data_uri (0.1.0)
-    ffi (1.17.0-x64-mingw-ucrt)
-    ffi-rzmq (2.0.7)
-      ffi-rzmq-core (>= 1.0.7)
-    ffi-rzmq-core (1.0.7)
-      ffi
-    io-console (0.7.2)
-    irb (1.13.2)
-      rdoc (>= 4.0.0)
-      reline (>= 0.4.2)
-    iruby (0.7.4)
-      data_uri (~> 0.1)
-      ffi-rzmq
-      irb
-      mime-types (>= 3.3.1)
-      multi_json (~> 1.11)
-      native-package-installer
     json (2.7.2)
     language_server-protocol (3.17.0.3)
-    mime-types (3.5.2)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0604)
-    multi_json (1.15.0)
-    native-package-installer (1.1.9)
     parallel (1.25.1)
     parser (3.3.4.0)
       ast (~> 2.4.1)
       racc
-    psych (5.1.2)
-      stringio
     racc (1.8.0)
     rainbow (3.1.1)
-    rdoc (6.7.0)
-      psych (>= 4.0.0)
     regexp_parser (2.9.2)
-    reline (0.5.9)
-      io-console (~> 0.5)
     rexml (3.3.1)
       strscan
     rubocop (1.65.0)
@@ -55,7 +27,6 @@ GEM
     rubocop-ast (1.31.3)
       parser (>= 3.3.1.0)
     ruby-progressbar (1.13.0)
-    stringio (3.1.1)
     strscan (3.1.0)
     unicode-display_width (2.5.0)
 
@@ -63,7 +34,6 @@ PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
-  iruby
   rubocop
 
 BUNDLED WITH
