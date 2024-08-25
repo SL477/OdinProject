@@ -119,6 +119,38 @@ class  LinkedList
     ret = "#{ret} -> nil"
     ret
   end
+
+  def insert_at(value, index)
+    cnt = index
+    next_node = @first_node
+    last_node = nil
+    until cnt <= 0
+      last_node = next_node
+      next_node = next_node.next_node
+      cnt -= 1
+    end
+    new_node = Node.new
+    new_node.value = value
+    new_node.next_node = next_node
+    last_node.next_node = new_node
+  end
+
+  def remove_at(index)
+    if index.eql? 0
+      @first_node = @first_node.next_node
+    else
+      cnt = index
+      next_node = @first_node
+      last_node = nil
+      until cnt <= 0
+        last_node = next_node
+        next_node = next_node.next_node
+        cnt -= 1
+      end
+
+      last_node.next_node = next_node.next_node
+    end
+  end
 end
 
 class Node
@@ -151,3 +183,23 @@ print "\nsize: #{ll.size()}"
 print "\nContains bye: #{ll.contains?('bye')}"
 print "\nFind bye: #{ll.find('bye')}"
 print "\nto_s: #{ll.to_s()}"
+
+
+list = LinkedList.new
+
+list.append('dog')
+list.append('cat')
+list.append('parrot')
+list.append('hamster')
+list.append('snake')
+list.append('turtle')
+puts list
+
+list.insert_at('Eagle', 3)
+puts list
+
+list.remove_at(3)
+puts list
+
+list.remove_at(0)
+puts list
