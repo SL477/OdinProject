@@ -196,6 +196,36 @@ class Tree # rubocop:disable Style/Documentation
 
     right_height
   end
+
+  def depth(node = @root) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    cur_node = @root
+    is_stop = false
+    ret = 0
+    return ret if cur_node.value == node.value
+
+    until is_stop
+      # pretty_print(cur_node)
+      # print "Val: #{val}, cur_node: #{cur_node.value}"
+      if node.value == cur_node.value
+        is_stop = true
+        return ret
+      elsif node.value > cur_node.value && cur_node.right.nil?
+        is_stop = true
+        cur_node = nil
+        return ret
+      elsif node.value > cur_node.value
+        cur_node = cur_node.right
+      elsif node.value < cur_node.value && cur_node.left.nil?
+        is_stop = true
+        cur_node = nil
+        return nil
+      else
+        cur_node = cur_node.left
+      end
+      ret += 1
+    end
+    cur_node
+  end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -217,3 +247,4 @@ puts ''
 puts 'Postorder'
 puts t.postorder
 puts "height: #{t.height}"
+puts "Depth of 5: #{t.depth(t.find(5))}"
