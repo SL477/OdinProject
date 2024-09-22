@@ -74,34 +74,69 @@ class Tree # rubocop:disable Style/Documentation
     end
   end
 
-  def delete_node(root, x) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
-    return root if root.nil?
+  def delete_node(cur_node, x) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize,Naming/MethodParameterName
+    # From https://www.geeksforgeeks.org/deletion-in-binary-search-tree/
+    return cur_node if cur_node.nil?
+
+    pretty_print(cur_node)
+    print "value: #{x}"
 
     # If its a subtree
-    if root.value > x
-      root.left = delete_node(root.left, x)
-    elsif root.value < x
-      root.right = delete_node(root.right, x)
+    if cur_node.value < x
+      cur_node.left = delete_node(cur_node.left, x)
+    elsif cur_node.value > x
+      cur_node.right = delete_node(cur_node.right, x)
     else
-      return root.right if root.left.nil?
-      return root.left if root.right.nil?
+      return cur_node.right if cur_node.left.nil?
+      return cur_node.left if cur_node.right.nil?
 
       # both children
-      successor = get_successor(root)
-      root.value = successor.value
-      root.right = delete_node(root.right, successor.value)
+      successor = get_successor(cur_node)
+      cur_node.value = successor.value
+      print "successor value: #{successor.value}"
+      cur_node.right = delete_node(cur_node.right, successor.value)
     end
-    root
+    cur_node
   end
 
-  def get_successor(root)
-    root = root.right
-    root = root.left while !root.nil? && !root.left.nil?
-    root
+  def get_successor(cur_node)
+    cur_node = cur_node.right
+    cur_node = cur_node.left while cur_node.nil? && cur_node.left.nil?
+    cur_node
+  end
+
+  def find(val) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    cur_node = @root
+    is_stop = false
+    return cur_node if cur_node.value == val
+
+    until is_stop
+      # pretty_print(cur_node)
+      # print "Val: #{val}, cur_node: #{cur_node.value}"
+      if val == cur_node.value
+        is_stop = true
+        return cur_node
+      elsif val < cur_node.value && cur_node.right.nil?
+        is_stop = true
+        cur_node = nil
+        return nil
+      elsif val < cur_node.value
+        cur_node = cur_node.right
+      elsif val > cur_node.value && cur_node.left.nil? # rubocop:disable Lint/DuplicateBranch
+        is_stop = true
+        cur_node = nil
+        return nil
+      else
+        cur_node = cur_node.left
+      end
+    end
+    cur_node
   end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 t.pretty_print
 t.root = t.delete_node(t.root, 9)
+t.root = t.delete_node(t.root, 67)
 t.pretty_print
+t.pretty_print(t.find(3))
