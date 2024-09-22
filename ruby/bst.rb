@@ -16,7 +16,7 @@ class Node # rubocop:disable Style/Documentation
   end
 end
 
-class Tree # rubocop:disable Style/Documentation
+class Tree # rubocop:disable Style/Documentation,Metrics/ClassLength
   attr_accessor :root
 
   def initialize(arr)
@@ -26,15 +26,15 @@ class Tree # rubocop:disable Style/Documentation
   def build_tree(arr)
     arr.sort
     arr = arr.uniq
-    root = Node.new
+    cur_node = Node.new
 
     # take the centre item from the array
     until arr.length <= 0
       centre = (arr.length / 2).floor
-      insert(arr[centre], root)
+      insert(arr[centre], cur_node)
       arr.delete_at(centre)
     end
-    root
+    cur_node
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -43,8 +43,7 @@ class Tree # rubocop:disable Style/Documentation
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def insert(value, root) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity
-    cur_node = root
+  def insert(value, cur_node = @root) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize,Metrics/PerceivedComplexity
     should_end = false
     until should_end
       if cur_node.value.nil?
@@ -227,40 +226,96 @@ class Tree # rubocop:disable Style/Documentation
     cur_node
   end
 
-  def balanced?(node = @root)
+  def balanced_rec(node = @root)
     # from https://www.geeksforgeeks.org/how-to-determine-if-a-binary-tree-is-balanced/
-    return true if node.nil?
+    return 0 if node.nil?
 
-    left_height = height(node.left)
-    right_height = height(node.right)
+    left_height = balanced_rec(node.left)
+    return -1 if left_height == -1
 
-    if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right) # rubocop:disable Style/IfUnlessModifier
-      return true
-    end
+    right_height = balanced_rec(node.right)
+    return -1 if right_height == -1
 
-    false
+    return -1 if left_height > right_height + 1 || right_height > left_height + 1
+
+    return left_height + 1 if left_height > right_height
+
+    right_height + 1
+  end
+
+  def balanced?(node = @root)
+    # puts "balanced rec #{balanced_rec(node)}"
+    balanced_rec(node).positive?
+  end
+
+  def rebalance
+    arr = inorder
+    @root = build_tree_arr(arr, 0, arr.length)
+  end
+
+  def build_tree_arr(arr, start, finish)
+    # from https://www.geeksforgeeks.org/convert-normal-bst-balanced-bst/
+    return nil if start > finish
+
+    mid = ((start + finish) / 2).floor
+    cur_node = Node.new
+    cur_node.value = arr[mid]
+    cur_node.left = build_tree_arr(arr, start, mid - 1)
+    cur_node.right = build_tree_arr(arr, mid + 1, finish)
+    cur_node
   end
 end
 
-t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+# t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+# t.pretty_print
+# puts "Balanced: #{t.balanced?}"
+# t.root = t.delete_node(t.root, 9)
+# t.root = t.delete_node(t.root, 67)
+# t.pretty_print
+# t.pretty_print(t.find(3))
+# puts t.level_order
+# puts 'With block'
+# t.level_order { |block| print block.value }
+# puts ''
+# puts 'inorder'
+# puts t.inorder
+# puts ''
+# puts 'preorder'
+# puts t.preorder
+# puts ''
+# puts 'Postorder'
+# puts t.postorder
+# puts "height: #{t.height}"
+# puts "Depth of 5: #{t.depth(t.find(5))}"
+# puts "Balanced: #{t.balanced?}"
+
+# their tests
+t = Tree.new((Array.new(15) { rand(1..100) }))
 t.pretty_print
 puts "Balanced: #{t.balanced?}"
-t.root = t.delete_node(t.root, 9)
-t.root = t.delete_node(t.root, 67)
-t.pretty_print
-t.pretty_print(t.find(3))
+puts 'Level Order'
 puts t.level_order
-puts 'With block'
-t.level_order { |block| print block.value }
-puts ''
-puts 'inorder'
-puts t.inorder
-puts ''
-puts 'preorder'
+puts 'pre order'
 puts t.preorder
-puts ''
-puts 'Postorder'
+puts 'Post order'
 puts t.postorder
-puts "height: #{t.height}"
-puts "Depth of 5: #{t.depth(t.find(5))}"
+puts 'in order'
+puts t.inorder
+t.insert(101, t.root)
+t.insert(201, t.root)
+t.insert(401, t.root)
+t.insert(411, t.root)
+t.insert(41, t.root)
+t.insert(501, t.root)
 puts "Balanced: #{t.balanced?}"
+t.rebalance
+puts "Balanced: #{t.balanced?}"
+puts 'Level Order'
+puts t.level_order
+puts 'pre order'
+puts t.preorder
+puts 'Post order'
+puts t.postorder
+puts 'in order'
+puts t.inorder
+t.pretty_print
