@@ -78,8 +78,8 @@ class Tree # rubocop:disable Style/Documentation
     # From https://www.geeksforgeeks.org/deletion-in-binary-search-tree/
     return cur_node if cur_node.nil?
 
-    pretty_print(cur_node)
-    print "value: #{x}"
+    # pretty_print(cur_node)
+    # print "value: #{x}"
 
     # If its a subtree
     if cur_node.value < x
@@ -93,7 +93,7 @@ class Tree # rubocop:disable Style/Documentation
       # both children
       successor = get_successor(cur_node)
       cur_node.value = successor.value
-      print "successor value: #{successor.value}"
+      # print "successor value: #{successor.value}"
       cur_node.right = delete_node(cur_node.right, successor.value)
     end
     cur_node
@@ -132,6 +132,25 @@ class Tree # rubocop:disable Style/Documentation
     end
     cur_node
   end
+
+  def level_order(&my_block) # rubocop:disable Metrics/MethodLength
+    queue = [@root]
+    arr = []
+    until queue.length <= 0
+      item = queue.shift
+      unless item.nil? # rubocop:disable Style/Next
+        queue.append(item.left)
+        queue.append(item.right)
+        if my_block.nil?
+          arr.push(item.value)
+        else
+          yield item
+        end
+      end
+    end
+
+    return arr if my_block.nil? # rubocop:disable Style/RedundantReturn
+  end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -140,3 +159,6 @@ t.root = t.delete_node(t.root, 9)
 t.root = t.delete_node(t.root, 67)
 t.pretty_print
 t.pretty_print(t.find(3))
+puts t.level_order
+puts 'With block'
+t.level_order { |block| print block.value }
