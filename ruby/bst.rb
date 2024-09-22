@@ -181,6 +181,21 @@ class Tree # rubocop:disable Style/Documentation
     yield node unless my_block.nil?
     arr if my_block.nil?
   end
+
+  def height(node = @root, ret = 0)
+    # Height is defined as the number of edges in longest path from a given node to a leaf node.
+    left_height = 1
+    right_height = 1
+    unless node.left.nil? # rubocop:disable Style/IfUnlessModifier
+      left_height = height(node.left, ret) + 1
+    end
+    unless node.right.nil? # rubocop:disable Style/IfUnlessModifier
+      right_height = height(node.right, ret) + 1
+    end
+    return left_height if left_height > right_height
+
+    right_height
+  end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -201,3 +216,4 @@ puts t.preorder
 puts ''
 puts 'Postorder'
 puts t.postorder
+puts "height: #{t.height}"
