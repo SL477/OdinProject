@@ -152,9 +152,35 @@ class Tree # rubocop:disable Style/Documentation
     return arr if my_block.nil? # rubocop:disable Style/RedundantReturn
   end
 
-  # def inorder(&my_block)
+  def inorder(node = @root, &my_block)
+    # go to the left, then root, then right tree
+    arr = []
+    arr.concat(inorder(node.left, &my_block)) unless node.left.nil?
+    arr.push(node.value)
+    yield node unless my_block.nil?
+    arr.concat(inorder(node.right, &my_block)) unless node.right.nil?
+    arr if my_block.nil?
+  end
 
-  # end
+  def preorder(node = @root, &my_block)
+    # At first visit the root then traverse left subtree and then traverse the right subtree.
+    arr = []
+    arr.push(node.value)
+    yield node unless my_block.nil?
+    arr.concat(preorder(node.left, &my_block)) unless node.left.nil?
+    arr.concat(preorder(node.right, &my_block)) unless node.right.nil?
+    arr if my_block.nil?
+  end
+
+  def postorder(node = @root, &my_block)
+    # At first traverse left subtree then traverse the right subtree and then visit the root.
+    arr = []
+    arr.concat(postorder(node.left, &my_block)) unless node.left.nil?
+    arr.concat(postorder(node.right, &my_block)) unless node.right.nil?
+    arr.push(node.value)
+    yield node unless my_block.nil?
+    arr if my_block.nil?
+  end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
@@ -166,3 +192,12 @@ t.pretty_print(t.find(3))
 puts t.level_order
 puts 'With block'
 t.level_order { |block| print block.value }
+puts ''
+puts 'inorder'
+puts t.inorder
+puts ''
+puts 'preorder'
+puts t.preorder
+puts ''
+puts 'Postorder'
+puts t.postorder
