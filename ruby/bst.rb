@@ -226,10 +226,25 @@ class Tree # rubocop:disable Style/Documentation
     end
     cur_node
   end
+
+  def balanced?(node = @root)
+    # from https://www.geeksforgeeks.org/how-to-determine-if-a-binary-tree-is-balanced/
+    return true if node.nil?
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+
+    if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right) # rubocop:disable Style/IfUnlessModifier
+      return true
+    end
+
+    false
+  end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 t.pretty_print
+puts "Balanced: #{t.balanced?}"
 t.root = t.delete_node(t.root, 9)
 t.root = t.delete_node(t.root, 67)
 t.pretty_print
@@ -248,3 +263,4 @@ puts 'Postorder'
 puts t.postorder
 puts "height: #{t.height}"
 puts "Depth of 5: #{t.depth(t.find(5))}"
+puts "Balanced: #{t.balanced?}"
