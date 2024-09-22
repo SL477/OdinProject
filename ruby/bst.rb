@@ -51,7 +51,7 @@ class Tree # rubocop:disable Style/Documentation
         cur_node.value = value
         should_end = true
       else
-        if cur_node.value < value # rubocop:disable Style/IfInsideElse
+        if cur_node.value > value # rubocop:disable Style/IfInsideElse
           # left
           if cur_node.left.nil? # rubocop:disable Metrics/BlockNesting
             cur_node.left = Node.new
@@ -82,9 +82,9 @@ class Tree # rubocop:disable Style/Documentation
     # print "value: #{x}"
 
     # If its a subtree
-    if cur_node.value < x
+    if cur_node.value > x
       cur_node.left = delete_node(cur_node.left, x)
-    elsif cur_node.value > x
+    elsif cur_node.value < x
       cur_node.right = delete_node(cur_node.right, x)
     else
       return cur_node.right if cur_node.left.nil?
@@ -116,13 +116,13 @@ class Tree # rubocop:disable Style/Documentation
       if val == cur_node.value
         is_stop = true
         return cur_node
-      elsif val < cur_node.value && cur_node.right.nil?
+      elsif val > cur_node.value && cur_node.right.nil?
         is_stop = true
         cur_node = nil
         return nil
-      elsif val < cur_node.value
+      elsif val > cur_node.value
         cur_node = cur_node.right
-      elsif val > cur_node.value && cur_node.left.nil? # rubocop:disable Lint/DuplicateBranch
+      elsif val < cur_node.value && cur_node.left.nil? # rubocop:disable Lint/DuplicateBranch
         is_stop = true
         cur_node = nil
         return nil
@@ -151,6 +151,10 @@ class Tree # rubocop:disable Style/Documentation
 
     return arr if my_block.nil? # rubocop:disable Style/RedundantReturn
   end
+
+  # def inorder(&my_block)
+
+  # end
 end
 
 t = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
