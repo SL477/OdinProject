@@ -12,4 +12,9 @@ class ChessPiece
     @notation = notation
     @picture = picture
   end
+
+  # Returns strings of Column-Row
+  def potential_moves(board) # rubocop:disable Lint/UnusedMethodArgument
+    []
+  end
 end
