@@ -8,6 +8,6 @@ class Knight < ChessPiece
           else
             "\u2658"
           end
-    super(location, 3, alignment, 'N', pic)
+    super(location, 3, alignment, 'N', pic, 'knight')
   end
 end

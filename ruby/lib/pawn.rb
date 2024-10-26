@@ -8,7 +8,7 @@ class Pawn < ChessPiece
           else
             "\u2659"
           end
-    super(location, 1, alignment, '', pic)
+    super(location, 1, alignment, '', pic, 'pawn')
   end
 
   # Returns strings of Column-Row

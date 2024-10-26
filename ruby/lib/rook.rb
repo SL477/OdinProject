@@ -8,6 +8,6 @@ class Rook < ChessPiece
           else
             "\u2656"
           end
-    super(location, 5, alignment, 'R', pic)
+    super(location, 5, alignment, 'R', pic, 'rook')
   end
 end
