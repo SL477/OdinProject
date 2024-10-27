@@ -5,8 +5,9 @@ require 'json'
 # Parent class for chess
 class ChessPiece
   attr_reader :picture, :alignment
+  attr_writer :moved
 
-  def initialize(location, points, alignment, notation, picture, type)
+  def initialize(location, points, alignment, notation, picture, type) # rubocop:disable Metrics/ParameterLists
     @moved = false
     @location = location
     @points = points
@@ -21,20 +22,20 @@ class ChessPiece
     []
   end
 
-  def to_json
+  def to_json(*_args)
     JSON.dump({
-      :moved => @moved,
-      :location => @location,
-      :points => @points,
-      :alignment => @alignment,
-      :notation => @notation,
-      :picture => @picture,
-      :type => @type
-    })
+                moved: @moved,
+                location: @location,
+                points: @points,
+                alignment: @alignment,
+                notation: @notation,
+                picture: @picture,
+                type: @type
+              })
   end
 
   def self.from_json(string)
-    data = JSON.load string
-    self.new(data['location'], data['points'], data['alignment'], data['notation'], data['picture'], data['type'])
+    data = JSON.parse string
+    new(data['location'], data['alignment'])
   end
 end
