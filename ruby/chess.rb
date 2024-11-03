@@ -97,12 +97,19 @@ class Chess # rubocop:disable Metrics/ClassLength
 
     input = gets
     input = input.strip
+    arr = input.split
     if input == '3'
       File.open('save.json', 'w') do |file|
         file.puts to_json
       end
     elsif input == '5'
       initialize(JSON.parse(File.read('save.json').strip))
+      display
+      menu
+    elsif input.start_with?('2') && arr.length > 1
+      show_potential_moves(arr[1])
+    else
+      puts 'Invalid option'
       display
       menu
     end
