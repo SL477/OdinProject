@@ -6,6 +6,7 @@ require 'json'
 class ChessPiece
   attr_reader :picture, :alignment
   attr_writer :moved
+  attr_accessor :en_passant
 
   def initialize(location, points, alignment, notation, picture, type) # rubocop:disable Metrics/ParameterLists
     @moved = false
@@ -14,7 +15,8 @@ class ChessPiece
     @alignment = alignment
     @notation = notation
     @picture = picture
-    @type = type
+    @type = type,
+            @en_passant = false
   end
 
   # Returns strings of Column-Row
@@ -30,12 +32,13 @@ class ChessPiece
                 alignment: @alignment,
                 notation: @notation,
                 picture: @picture,
-                type: @type
+                type: @type,
+                en_passant: @en_passant
               })
   end
 
   def self.from_json(string)
     data = JSON.parse string
-    new(data['location'], data['alignment'])
+    new(data['location'], data['alignment'], data['en_passant'])
   end
 end

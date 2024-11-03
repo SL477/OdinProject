@@ -2,7 +2,7 @@
 
 # Bishop class
 class Bishop < ChessPiece
-  def initialize(location, alignment)
+  def initialize(location, alignment, en_passant = false) # rubocop:disable Lint/UnusedMethodArgument,Style/OptionalBooleanParameter
     pic = if alignment == 'black'
             "\u265D"
           else

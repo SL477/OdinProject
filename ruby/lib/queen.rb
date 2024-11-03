@@ -2,7 +2,7 @@
 
 # Queen class
 class Queen < ChessPiece
-  def initialize(location, alignment)
+  def initialize(location, alignment, en_passant = false) # rubocop:disable Lint/UnusedMethodArgument,Style/OptionalBooleanParameter
     pic = if alignment == 'black'
             "\u265B"
           else

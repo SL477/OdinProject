@@ -88,7 +88,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     puts '    A   B   C   D   E   F   G   H'
   end
 
-  def menu # rubocop:disable Metrics/MethodLength
+  def menu # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
     puts '1 - Make move. E.g. 1 A2 A4'
     puts '2 - Show moves. E.g 2 A2'
     puts '3 - Save'
