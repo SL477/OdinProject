@@ -34,4 +34,13 @@ describe Chess do # rubocop:disable Metrics/BlockLength
     result = moves.include?(:'25') && moves.include?(:'15')
     expect(result).to be true
   end
+
+  it 'White Knight B1' do
+    game = Chess.new
+    row_col = game.get_row_column('B1')
+    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board)
+    expect(moves.length).to eq(2)
+    result = moves.include?(:'02') && moves.include?(:'22')
+    expect(result).to be true
+  end
 end

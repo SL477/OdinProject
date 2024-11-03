@@ -16,7 +16,6 @@ class Pawn < ChessPiece
   # Returns strings of Column-Row
   def potential_moves(board) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
     ret = []
-    # TODO: en passant
     if @alignment == 'black'
       square_in_front = board[@location[0] - 1][@location[1]].nil?
       if square_in_front
