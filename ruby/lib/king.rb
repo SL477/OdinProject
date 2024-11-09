@@ -2,7 +2,7 @@
 
 # King class
 class King < ChessPiece
-  def initialize(location, alignment)
+  def initialize(location, alignment, en_passant = false)
     pic = if alignment == 'black'
             "\u265A"
           else

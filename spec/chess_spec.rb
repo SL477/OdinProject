@@ -73,4 +73,19 @@ describe Chess do # rubocop:disable Metrics/BlockLength
     # pp moves
     expect(result).to be true
   end
+
+  it "Is King in check? False" do
+    game = Chess.new({"c5" => '{"moved":true,"location":[4,2],"points":1,"alignment":"white","notation":"b","picture":"♙","type":"king"}'})
+    row_col = game.get_row_column('C5')
+    in_check = game.board[row_col[0]][row_col[1]].in_check?(game.board)
+    expect(in_check).to be false
+  end
+
+  it "Is King in check? True" do
+    game = Chess.new({"c5" => '{"moved":true,"location":[4,2],"points":1,"alignment":"white","notation":"b","picture":"♙","type":"king"}',
+                      "d5" => '{"moved":true,"location":[4,3],"points":1,"alignment":"black","notation":"b","picture":"♙","type":"queen"}'})
+    row_col = game.get_row_column('C5')
+    in_check = game.board[row_col[0]][row_col[1]].in_check?(game.board)
+    expect(in_check).to be true
+  end
 end

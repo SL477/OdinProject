@@ -4,7 +4,7 @@ require 'json'
 
 # Parent class for chess
 class ChessPiece
-  attr_reader :picture, :alignment
+  attr_reader :picture, :alignment, :type, :location
   attr_writer :moved
   attr_accessor :en_passant
 
@@ -15,8 +15,8 @@ class ChessPiece
     @alignment = alignment
     @notation = notation
     @picture = picture
-    @type = type,
-            @en_passant = false
+    @type = type
+    @en_passant = false
   end
 
   # Returns strings of Column-Row
@@ -70,5 +70,28 @@ class ChessPiece
       column += column_increment
     end
     ret
+  end
+
+  def in_check?(board)
+    # get the current sides king and its location
+    kings = board.flatten.select { |cell| !cell.nil? && cell.alignment == @alignment && cell.type == 'king' }
+    if kings.length <= 0
+      return false
+    end
+    king = kings[0]
+    king_location = :"#{king.location[1]}#{king.location[0]}"
+
+    # get all the opposite sides pieces
+    opposite_pieces = board.flatten.select { |cell| !cell.nil? && cell.alignment != @alignment }
+
+    # get their potential moves and if the king is in those moves
+    opposite_pieces.each do |piece|
+      moves = piece.potential_moves(board)
+      if moves.include?(king_location)
+        return true
+      end
+    end
+
+    false
   end
 end
