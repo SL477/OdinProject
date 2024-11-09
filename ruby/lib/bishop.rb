@@ -10,4 +10,14 @@ class Bishop < ChessPiece
           end
     super(location, 3, alignment, 'B', pic, 'bishop')
   end
+
+  # Returns strings of Column-Row
+  def potential_moves(board)
+    ret = []
+    ret.push(*check_moves_in_loop(1, 1, board))
+    ret.push(*check_moves_in_loop(-1, 1, board))
+    ret.push(*check_moves_in_loop(1, -1, board))
+    ret.push(*check_moves_in_loop(-1, -1, board))
+    ret
+  end
 end
