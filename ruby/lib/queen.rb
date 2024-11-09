@@ -11,8 +11,8 @@ class Queen < ChessPiece
     super(location, 9, alignment, 'Q', pic, 'queen')
   end
 
-   # Returns strings of Column-Row
-   def potential_moves(board)
+  # Returns strings of Column-Row
+  def potential_moves(board)
     ret = []
     ret.push(*check_moves_in_loop(1, 1, board))
     ret.push(*check_moves_in_loop(-1, 1, board))

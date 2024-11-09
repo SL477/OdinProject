@@ -63,4 +63,14 @@ describe Chess do # rubocop:disable Metrics/BlockLength
     # pp moves
     expect(result).to be true
   end
+
+  it "Rook on Black C5" do
+    game = Chess.new({"c5" => '{"moved":true,"location":[4,2],"points":1,"alignment":"white","notation":"b","picture":"♙","type":"rook"}'})
+    row_col = game.get_row_column('C5')
+    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board)
+    expect(moves.length).to eq(14)
+    result = moves.include?(:'04')
+    # pp moves
+    expect(result).to be true
+  end
 end
