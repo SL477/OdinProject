@@ -11,7 +11,7 @@ class Rook < ChessPiece
     super(location, 5, alignment, 'R', pic, 'rook')
   end
 
-  # Returns strings of Column-Row
+  # Returns array of strings of Column-Row and special move
   def potential_moves(board)
     ret = []
     # TODO castling

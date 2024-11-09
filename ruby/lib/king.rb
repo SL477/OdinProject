@@ -11,14 +11,15 @@ class King < ChessPiece
     super(location, 100, alignment, 'K', pic, 'king')
   end
 
-  # Returns strings of Column-Row
+  # Returns array of strings of Column-Row and special move
   def potential_moves(board)
+    # TODO castling
     ret = []
     cells_to_check = [[1, 0], [0, 1], [-1, 0], [0, -1]]
     cells_to_check.each do |cell_increments|
       cell = [location[0] + cell_increments[0], location[1] + cell_increments[1]]
       if is_valid_location?(cell, board)
-        ret.push(:"#{cell[1]}#{cell[0]}")
+        ret.push([:"#{cell[1]}#{cell[0]}", nil])
       end
     end
     ret

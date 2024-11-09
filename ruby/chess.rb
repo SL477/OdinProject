@@ -164,7 +164,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     moves = board[row_col[0]][row_col[1]].potential_moves(board)
     potential_moves = {}
     moves.each do |move|
-      potential_moves[move] = false
+      potential_moves[move[0]] = move[1]
     end
     display(potential_moves)
     menu

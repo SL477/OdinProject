@@ -19,7 +19,7 @@ class ChessPiece
     @en_passant = false
   end
 
-  # Returns strings of Column-Row
+  # Returns array of strings of Column-Row and special move
   def potential_moves(board) # rubocop:disable Lint/UnusedMethodArgument
     []
   end
@@ -59,7 +59,7 @@ class ChessPiece
     until should_stop
       valid = is_valid_location?([row, column], board)
       if valid[0]
-        ret.push(:"#{column}#{row}")
+        ret.push([:"#{column}#{row}", nil])
         if valid[1]
           should_stop = true
         end
@@ -87,7 +87,7 @@ class ChessPiece
     # get their potential moves and if the king is in those moves
     opposite_pieces.each do |piece|
       moves = piece.potential_moves(board)
-      if moves.include?(king_location)
+      if moves.flatten.include?(king_location)
         return true
       end
     end
