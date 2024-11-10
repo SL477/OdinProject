@@ -41,7 +41,7 @@ class ChessPiece
     new(data['location'], data['alignment'], data['en_passant'])
   end
 
-  def is_valid_location?(cell, board)
+  def is_valid_location?(cell, board) # rubocop:disable Naming/PredicateName
     if cell[0] >= 0 && cell[0] < 8 && cell[1] >= 0 && cell[1] < 8
       cell_piece = board[cell[0]][cell[1]]
 
@@ -50,7 +50,7 @@ class ChessPiece
     [false, false]
   end
 
-  def check_moves_in_loop(row_increment, column_increment, board)
+  def check_moves_in_loop(row_increment, column_increment, board) # rubocop:disable Metrics/MethodLength
     ret = []
     row = @location[0] + row_increment
     column = @location[1] + column_increment
@@ -69,7 +69,7 @@ class ChessPiece
     ret
   end
 
-  def in_check?(board)
+  def in_check?(board) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     # get the current sides king and its location
     kings = board.flatten.select { |cell| !cell.nil? && cell.alignment == @alignment && cell.type == 'king' }
     return false if kings.length <= 0
