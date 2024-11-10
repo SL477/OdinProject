@@ -98,4 +98,73 @@ describe Chess do # rubocop:disable Metrics/BlockLength
     in_check = game.board[row_col[0]][row_col[1]].in_check?(game.board)
     expect(in_check).to be true
   end
+
+  it "Can castle right" do
+    game = Chess.new({
+      "a1" => '{"moved":false,"location":[0,0],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e1" => '{"moved":false,"location":[0,4],"points":100,"alignment":"white","notation":"K","picture":"♔","type":"king","en_passant":false}',
+      "h1" => '{"moved":false,"location":[0,7],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e8" => '{"moved":false,"location":[7,4],"points":100,"alignment":"black","notation":"K","picture":"♚","type":"king","en_passant":false}'
+    })
+    row_col = game.get_row_column('H1')
+    # moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board)
+    can_castle = game.board[row_col[0]][row_col[1]].can_castle?(game.board)
+    expect(can_castle).to be true
+  end
+
+  it "Can castle left" do
+    game = Chess.new({
+      "a1" => '{"moved":false,"location":[0,0],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e1" => '{"moved":false,"location":[0,4],"points":100,"alignment":"white","notation":"K","picture":"♔","type":"king","en_passant":false}',
+      "h1" => '{"moved":false,"location":[0,7],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e8" => '{"moved":false,"location":[7,4],"points":100,"alignment":"black","notation":"K","picture":"♚","type":"king","en_passant":false}'
+    })
+    row_col = game.get_row_column('A1')
+    # moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board)
+    can_castle = game.board[row_col[0]][row_col[1]].can_castle?(game.board)
+    expect(can_castle).to be true
+  end
+
+  it "Can castle left, false, items in way" do
+    game = Chess.new
+    row_col = game.get_row_column('A1')
+    can_castle = game.board[row_col[0]][row_col[1]].can_castle?(game.board)
+    expect(can_castle).to be false
+  end
+
+  it "Can castle left in check, false" do
+    game = Chess.new({
+      "a1" => '{"moved":false,"location":[0,0],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e1" => '{"moved":false,"location":[0,4],"points":100,"alignment":"white","notation":"K","picture":"♔","type":"king","en_passant":false}',
+      "h1" => '{"moved":false,"location":[0,7],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e8" => '{"moved":false,"location":[7,4],"points":100,"alignment":"black","notation":"K","picture":"♚","type":"rook","en_passant":false}'
+    })
+    row_col = game.get_row_column('A1')
+    can_castle = game.board[row_col[0]][row_col[1]].can_castle?(game.board)
+    expect(can_castle).to be false
+  end
+
+  it "Can castle left through check, false" do
+    game = Chess.new({
+      "a1" => '{"moved":false,"location":[0,0],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e1" => '{"moved":false,"location":[0,4],"points":100,"alignment":"white","notation":"K","picture":"♔","type":"king","en_passant":false}',
+      "h1" => '{"moved":false,"location":[0,7],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "d8" => '{"moved":false,"location":[7,3],"points":100,"alignment":"black","notation":"K","picture":"♚","type":"rook","en_passant":false}'
+    })
+    row_col = game.get_row_column('A1')
+    can_castle = game.board[row_col[0]][row_col[1]].can_castle?(game.board)
+    expect(can_castle).to be false
+  end
+
+  it "Can castle left, has moved, false" do
+    game = Chess.new({
+      "a1" => '{"moved":true,"location":[0,0],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e1" => '{"moved":false,"location":[0,4],"points":100,"alignment":"white","notation":"K","picture":"♔","type":"king","en_passant":false}',
+      "h1" => '{"moved":false,"location":[0,7],"points":5,"alignment":"white","notation":"R","picture":"♖","type":"rook","en_passant":false}',
+      "e8" => '{"moved":false,"location":[7,4],"points":100,"alignment":"black","notation":"K","picture":"♚","type":"king","en_passant":false}'
+    })
+    row_col = game.get_row_column('A1')
+    can_castle = game.board[row_col[0]][row_col[1]].can_castle?(game.board)
+    expect(can_castle).to be false
+  end
 end
