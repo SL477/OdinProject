@@ -6,7 +6,7 @@ describe Chess do # rubocop:disable Metrics/BlockLength
   it '#show_potential_moves black pawn start' do
     game = Chess.new
     row_col = game.get_row_column('H7')
-    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board).flatten.compact
+    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board).map { |i| i[0] }
     expect(moves.length).to eq(2)
     result = moves.include?(:'74') && moves.include?(:'75')
     expect(result).to be true
@@ -15,7 +15,7 @@ describe Chess do # rubocop:disable Metrics/BlockLength
   it '#show_potential_moves white pawn start' do
     game = Chess.new
     row_col = game.get_row_column('H2')
-    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board).flatten.compact
+    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board).map { |i| i[0] }
     expect(moves.length).to eq(2)
     result = moves.include?(:'72') && moves.include?(:'73')
     expect(result).to be true
@@ -29,9 +29,7 @@ describe Chess do # rubocop:disable Metrics/BlockLength
                        'c5' => '{"moved":true,"location":[4,2],"points":1,"alignment":"white","notation":"","picture":"♙","type":"pawn"}' # rubocop:disable Layout/LineLength
                      })
     row_col = game.get_row_column('C5')
-    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board).flatten.compact.reject do |move|
-      move == 'enPassant'
-    end
+    moves = game.board[row_col[0]][row_col[1]].potential_moves(game.board).map { |i| i[0] }
     expect(moves.length).to eq(2)
     result = moves.include?(:'25') && moves.include?(:'15')
     expect(result).to be true

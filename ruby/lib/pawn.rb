@@ -20,7 +20,10 @@ class Pawn < ChessPiece
       square_in_front = board[@location[0] - 1][@location[1]].nil?
       if square_in_front
         ret.push([:"#{@location[1]}#{@location[0] - 1}", nil])
-        ret.push([:"#{@location[1]}#{@location[0] - 2}", nil]) if !@moved && board[@location[0] - 2][@location[1]].nil?
+        if !@moved && board[@location[0] - 2][@location[1]].nil?
+          ret.push([:"#{@location[1]}#{@location[0] - 2}",
+                    'doubleStep'])
+        end
       end
 
       # left attack
@@ -46,7 +49,7 @@ class Pawn < ChessPiece
         if @location[1].positive?
           left_attack_square = board[@location[0]][@location[1] - 1]
           if !left_attack_square.nil? && left_attack_square.en_passant && left_attack_square.alignment == 'white' # rubocop:disable Metrics/BlockNesting
-            ret.push([:"#{@location[1] - 1}#{@location[0] - 1}", 'enPassant'])
+            ret.push([:"#{@location[1] - 1}#{@location[0] - 1}", "enPassant_#{@location[1] - 1}#{@location[0]}"])
           end
         end
 
@@ -54,7 +57,7 @@ class Pawn < ChessPiece
         if @location[1] < 6
           right_attack_square = board[@location[0]][@location[1] + 1]
           if !right_attack_square.nil? && right_attack_square.alignment == 'white' && right_attack_square.en_passant # rubocop:disable Metrics/BlockNesting
-            ret.push([:"#{@location[1] + 1}#{@location[0] - 1}", 'enPassant'])
+            ret.push([:"#{@location[1] + 1}#{@location[0] - 1}", "enPassant_#{@location[1] + 1}#{@location[0]}"])
           end
         end
       end
@@ -62,7 +65,9 @@ class Pawn < ChessPiece
       square_in_front = board[@location[0] + 1][@location[1]].nil?
       if square_in_front
         ret.push([:"#{@location[1]}#{@location[0] + 1}", nil])
-        ret.push([:"#{@location[1]}#{@location[0] + 2}", nil]) if !@moved && board[@location[0] + 2][@location[1]].nil?
+        if !@moved && board[@location[0] + 2][@location[1]].nil?
+          ret.push([:"#{@location[1]}#{@location[0] + 2}", 'doubleStep'])
+        end
       end
 
       # left attack
@@ -88,7 +93,7 @@ class Pawn < ChessPiece
         if @location[1].positive?
           left_attack_square = board[@location[0]][@location[1] - 1]
           if !left_attack_square.nil? && left_attack_square.en_passant && left_attack_square.alignment == 'black' # rubocop:disable Metrics/BlockNesting
-            ret.push([:"#{@location[1] - 1}#{@location[0] + 1}", 'enPassant'])
+            ret.push([:"#{@location[1] - 1}#{@location[0] + 1}", "enPassant_#{@location[1] - 1}#{@location[0]}"])
           end
         end
 
@@ -96,7 +101,7 @@ class Pawn < ChessPiece
         if @location[1] < 6
           right_attack_square = board[@location[0]][@location[1] + 1]
           if !right_attack_square.nil? && right_attack_square.alignment == 'black' && right_attack_square.en_passant # rubocop:disable Metrics/BlockNesting
-            ret.push([:"#{@location[1] + 1}#{@location[0] + 1}", 'enPassant'])
+            ret.push([:"#{@location[1] + 1}#{@location[0] + 1}", "enPassant_#{@location[1] + 1}#{@location[0]}"])
           end
         end
       end

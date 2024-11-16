@@ -187,7 +187,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     new(data)
   end
 
-  def make_move(origin, destination)
+  def make_move(origin, destination) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     row_col_origin = get_row_column(origin)
     row_col_destination = get_row_column(destination)
     if !row_col_origin || board[row_col_origin[0]][row_col_origin[1]].nil? || !row_col_destination
@@ -208,16 +208,18 @@ class Chess # rubocop:disable Metrics/ClassLength
       potential_moves[move[0]] = move[1]
     end
 
-    if !potential_moves.key?(destination_col_row)
+    unless potential_moves.key?(destination_col_row)
       puts 'Invalid destination'
       display
       menu
       return
     end
-    
-    @board = board[row_col_origin[0]][row_col_origin[1]].preview_move([destination_col_row, potential_moves[destination_col_row]], board)
 
-    # TODO: computer move and add to history
+    @board = board[row_col_origin[0]][row_col_origin[1]].preview_move(
+      [destination_col_row, potential_moves[destination_col_row]], board
+    )[0]
+
+    # TODO: computer move and add to history, checkmating
 
     @turn += 1
     display

@@ -24,7 +24,7 @@ class Knight < ChessPiece
              [@location[0] - 2, @location[1] + 1], [@location[0] - 1, @location[1] + 2]]
     cells.each do |cell|
       ret.push([:"#{cell[1]}#{cell[0]}", nil]) if cell[0] >= 0 && cell[0] < 8 && cell[1] >= 0 && cell[1] < 8 &&
-                                           is_valid_location?(cell, board[cell[0]][cell[1]])
+                                                  is_valid_location?(cell, board[cell[0]][cell[1]])
     end
     ret
   end
