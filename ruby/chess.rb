@@ -108,6 +108,8 @@ class Chess # rubocop:disable Metrics/ClassLength
       menu
     elsif input.start_with?('2') && arr.length > 1
       show_potential_moves(arr[1])
+    elsif input.start_with?('1') && arr.length == 3
+      make_move(arr[1], arr[2])
     else
       puts 'Invalid option'
       display
@@ -183,6 +185,43 @@ class Chess # rubocop:disable Metrics/ClassLength
   def self.from_json(string)
     data = JSON.parse(string)
     new(data)
+  end
+
+  def make_move(origin, destination)
+    row_col_origin = get_row_column(origin)
+    row_col_destination = get_row_column(destination)
+    if !row_col_origin || board[row_col_origin[0]][row_col_origin[1]].nil? || !row_col_destination
+      puts 'Invalid cell or destination'
+      display
+      menu
+      return
+    end
+
+    # get potential moves
+    moves = board[row_col_origin[0]][row_col_origin[1]].potential_moves(board)
+
+    # turn destination into Column-Row
+    destination_col_row = :"#{row_col_destination[1]}#{row_col_destination[0]}"
+
+    potential_moves = {}
+    moves.each do |move|
+      potential_moves[move[0]] = move[1]
+    end
+
+    if !potential_moves.key?(destination_col_row)
+      puts 'Invalid destination'
+      display
+      menu
+      return
+    end
+    
+    @board = board[row_col_origin[0]][row_col_origin[1]].preview_move([destination_col_row, potential_moves[destination_col_row]], board)
+
+    # TODO: computer move and add to history
+
+    @turn += 1
+    display
+    menu
   end
 end
 

@@ -88,4 +88,12 @@ class ChessPiece
 
     false
   end
+
+  # Column-Row and special move. Return new board
+  def preview_move(destination_specialMove, board)
+    new_board = board.map(&:dup)
+    special_move = destination_specialMove[1]
+    destination = destination_specialMove[0].split('').reverse.map { |i| i.to_i }
+    new_board
+  end
 end
