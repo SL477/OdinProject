@@ -3,7 +3,7 @@
 require 'json'
 
 # Parent class for chess
-class ChessPiece
+class ChessPiece # rubocop:disable Metrics/ClassLength
   attr_reader :picture, :alignment, :type
   attr_accessor :en_passant, :moved, :location
 
@@ -96,7 +96,6 @@ class ChessPiece
     destination = destination_special_move[0].to_s.chars.reverse.map(&:to_i)
     # pp destination
 
-    ## TODO: Castling
     if special_move.nil? || special_move == 'doubleStep' || special_move.start_with?('enPassant')
       taken_piece = new_board[destination[0]][destination[1]]
       new_board[destination[0]][destination[1]] = new_board[@location[0]][@location[1]]
@@ -110,11 +109,54 @@ class ChessPiece
       new_board[take_piece_location[0]][take_piece_location[1]] = nil
     end
 
-    # Update piece
-    new_board[destination[0]][destination[1]].moved = true
-    new_board[destination[0]][destination[1]].location = destination
-    # If this is a pawn moving two then set en Passant to true (special move is doubleStep)
-    new_board[destination[0]][destination[1]].en_passant = true if special_move == 'doubleStep'
+    ## Castling
+    if !special_move.nil? && special_move.start_with?('castle')
+      castle_type = special_move.split('_')[1]
+      rook_location = []
+      rook_new_location = []
+      king_new_location = []
+      king_location = board.flatten.compact.select do |cell|
+                        cell.alignment == @alignment && cell.type == 'king'
+                      end[0].location
+      if castle_type == '0-0-0'
+        if @alignment == 'white'
+          rook_new_location = [0, 3]
+          king_new_location = [0, 2]
+          rook_location = [0, 0]
+        else
+          rook_new_location = [7, 3]
+          king_new_location = [7, 2]
+          rook_location = [7, 0]
+        end
+      else
+        if @alignment == 'white' # rubocop:disable Style/IfInsideElse
+          rook_new_location = [0, 5]
+          king_new_location = [0, 6]
+          rook_location = [0, 7]
+        else
+          rook_new_location = [7, 5]
+          king_new_location = [7, 6]
+          rook_location = [7, 7]
+        end
+      end
+      new_board[king_new_location[0]][king_new_location[1]] = new_board[king_location[0]][king_location[1]]
+      new_board[king_location[0]][king_location[1]] = nil
+
+      new_board[rook_new_location[0]][rook_new_location[1]] = new_board[rook_location[0]][rook_location[1]]
+      new_board[rook_location[0]][rook_location[1]] = nil
+
+      # Update pieces
+      new_board[king_new_location[0]][king_new_location[1]].moved = true
+      new_board[king_new_location[0]][king_new_location[1]].location = king_new_location
+      new_board[rook_new_location[0]][rook_new_location[1]].moved = true
+      new_board[rook_new_location[0]][rook_new_location[1]].location = rook_new_location
+    else
+      # Update piece
+      new_board[destination[0]][destination[1]].moved = true
+      new_board[destination[0]][destination[1]].location = destination
+      # If this is a pawn moving two then set en Passant to true (special move is doubleStep)
+      new_board[destination[0]][destination[1]].en_passant = true if special_move == 'doubleStep'
+    end
 
     # set other side en passant to false
     other_passants = new_board.flatten.compact.select { |cell| cell.alignment != @alignment && cell.en_passant }
