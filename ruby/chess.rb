@@ -171,6 +171,7 @@ class Chess # rubocop:disable Metrics/ClassLength
   end
 
   def show_potential_moves(column_row) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+    # TODO: human should not be able to put themselves in check/leave themself in check
     row_col = get_row_column(column_row)
     if !row_col || board[row_col[0]][row_col[1]].nil?
       puts 'Invalid cell'
@@ -202,7 +203,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     new(data)
   end
 
-  def make_move(origin, destination) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def make_move(origin, destination) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     row_col_origin = get_row_column(origin)
     row_col_destination = get_row_column(destination)
     if !row_col_origin || board[row_col_origin[0]][row_col_origin[1]].nil? || !row_col_destination
@@ -234,7 +235,26 @@ class Chess # rubocop:disable Metrics/ClassLength
       [destination_col_row, potential_moves[destination_col_row]], board
     ) # [0]
 
-    # TODO: computer move and add to history, checkmating
+    # TODO: add to history
+    first_piece = @board.flatten.compact[0]
+    if first_piece.in_check?(@board, 'black') && first_piece.in_checkmate?(@board, 'black')
+      puts 'You won!'
+      return
+    end
+
+    best_move = mini_max(@board, 'black')
+    best_split = best_move.index.split('-')
+    # puts "best_move: #{best_move.index}"
+    ai_move = [best_split[1][3..4].to_sym, best_split[1][8..-2]]
+    ai_move[1] = nil if ai_move[1] == 'nil'
+    # puts "ai_move: #{ai_move}"
+    @board = @board[best_split[0][1].to_i][best_split[0][0].to_i].preview_move(ai_move, @board)
+
+    first_piece = @board.flatten.compact[0]
+    if first_piece.in_check?(@board, 'white') && first_piece.in_checkmate?(@board, 'white')
+      puts 'You lost!'
+      return
+    end
 
     @turn += 1
     display
