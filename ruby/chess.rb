@@ -9,6 +9,7 @@ require_relative 'lib/rook'
 require_relative 'lib/queen'
 require_relative 'lib/king'
 require_relative 'lib/chess_strings'
+require_relative 'lib/test_play_info'
 
 # Chess for the odin project
 class Chess # rubocop:disable Metrics/ClassLength
@@ -94,6 +95,8 @@ class Chess # rubocop:disable Metrics/ClassLength
     puts '3 - Save'
     puts '4 - Show history'
     puts '5 - Load'
+    puts '6 - Get hint'
+    # TODO: Show moves, show all moves. Show history. Give a hint for the next move
 
     input = gets
     input = input.strip
@@ -110,6 +113,18 @@ class Chess # rubocop:disable Metrics/ClassLength
       show_potential_moves(arr[1])
     elsif input.start_with?('1') && arr.length == 3
       make_move(arr[1], arr[2])
+    elsif input == '6'
+      best_move = mini_max(@board, 'white')
+      # puts best_move
+      # puts best_move.score
+      # puts best_move.index
+      display
+      puts best_move.index
+      best_split = best_move.index.split('-')
+      org = to_row_column(best_split[0][1].to_i, best_split[0][0].to_i).upcase
+      dest = to_row_column(best_split[1][4].to_i, best_split[1][3].to_i).upcase
+      puts "Hint: #{org} #{dest}"
+      menu
     else
       puts 'Invalid option'
       display
@@ -217,13 +232,104 @@ class Chess # rubocop:disable Metrics/ClassLength
 
     @board = board[row_col_origin[0]][row_col_origin[1]].preview_move(
       [destination_col_row, potential_moves[destination_col_row]], board
-    )[0]
+    ) # [0]
 
     # TODO: computer move and add to history, checkmating
 
     @turn += 1
     display
     menu
+  end
+
+  def mini_max(current_board_state_old, current_alignment, depth = 3) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+    current_board_state = current_board_state_old.map { |row| row.map(&:dup) }
+    other_alignment = if current_alignment == 'white'
+                        'black'
+                      else
+                        'white'
+                      end
+
+    # step 8
+    available_moves = {}
+    current_side_pieces = current_board_state.flatten.select do |cell|
+      !cell.nil? && cell.alignment == current_alignment
+    end
+    current_side_pieces.each do |piece|
+      moves = piece.potential_moves(current_board_state)
+      available_moves[piece] = moves if moves.length.positive?
+    end
+
+    # step 9, check if terminal state
+    first_piece = current_board_state.flatten.compact[0]
+    if first_piece.in_check?(current_board_state,
+                             current_alignment) && first_piece.in_checkmate?(current_board_state, current_alignment)
+      return TestPlayInfo.new(-1_000_000, -1)
+    elsif first_piece.in_check?(current_board_state,
+                                other_alignment) && first_piece.in_checkmate?(current_board_state, other_alignment)
+      return TestPlayInfo.new(1_000_000, -1)
+    elsif available_moves.count <= 0
+      return TestPlayInfo.new(0, -1)
+    elsif depth <= 0
+      current_side_score = 0
+      current_side_pieces.each do |piece|
+        current_side_score += piece.points
+      end
+      other_side_pieces = current_board_state.flatten.select { |cell| !cell.nil? && cell.alignment == other_alignment }
+      other_side_pieces.each do |piece|
+        current_side_score -= piece.points
+      end
+      return TestPlayInfo.new(current_side_score, -1)
+    end
+
+    # Step 10
+    all_test_play_infos = []
+
+    # Step 11
+    # pp available_moves
+    # puts 'start'
+    available_moves.each_key do |piece|
+      piece_moves = available_moves[piece]
+      # pp piece
+      # location = [piece.location[0], piece.location[1]]
+      # moved = piece.moved
+      piece_moves.each do |move|
+        # piece.moved = moved
+        # piece.location = location/
+        # puts 'piece location'
+        # pp piece.location
+        # puts 'end piece location'
+        # pp move
+        current_test_play_info = TestPlayInfo.new(0, "#{piece.location[1]}#{piece.location[0]}-#{move}")
+        new_state = piece.preview_move(move, current_board_state)
+        result = mini_max(new_state, other_alignment, depth - 1)
+        current_test_play_info.score = result.score
+        # Step 12
+        all_test_play_infos.push(current_test_play_info)
+      end
+    end
+
+    # Step 15
+    best_test_play = 0
+    if current_alignment == 'black'
+      best_score = -1_000_000_000_000
+      (0..(all_test_play_infos.length - 1)).each do |i|
+        if all_test_play_infos[i].score > best_score
+          best_score = all_test_play_infos[i].score
+          best_test_play = i
+        end
+      end
+    else
+      best_score = 1_000_000_000_000
+      (0..(all_test_play_infos.length - 1)).each do |i|
+        if all_test_play_infos[i].score < best_score
+          best_score = all_test_play_infos[i].score
+          best_test_play = i
+        end
+      end
+    end
+
+    # Step 17
+    all_test_play_infos[best_test_play]
   end
 end
 
@@ -239,6 +345,6 @@ if __FILE__ == $PROGRAM_NAME
 
   # puts game.to_json
 
-  # game = Chess.from_json('{"turn":2,"history":[],"a1":"{\"moved\":false,\"location\":[0,0],\"points\":5,\"alignment\":\"white\",\"notation\":\"R\",\"picture\":\"♖\",\"type\":\"rook\"}","b1":"{\"moved\":false,\"location\":[0,1],\"points\":3,\"alignment\":\"white\",\"notation\":\"N\",\"picture\":\"♘\",\"type\":\"knight\"}","c1":"{\"moved\":false,\"location\":[0,2],\"points\":3,\"alignment\":\"white\",\"notation\":\"B\",\"picture\":\"♗\",\"type\":\"bishop\"}","d1":"{\"moved\":false,\"location\":[0,3],\"points\":9,\"alignment\":\"white\",\"notation\":\"Q\",\"picture\":\"♕\",\"type\":\"queen\"}","e1":"{\"moved\":false,\"location\":[0,4],\"points\":100,\"alignment\":\"white\",\"notation\":\"K\",\"picture\":\"♔\",\"type\":\"king\"}","f1":"{\"moved\":false,\"location\":[0,5],\"points\":3,\"alignment\":\"white\",\"notation\":\"B\",\"picture\":\"♗\",\"type\":\"bishop\"}","g1":"{\"moved\":false,\"location\":[0,6],\"points\":3,\"alignment\":\"white\",\"notation\":\"N\",\"picture\":\"♘\",\"type\":\"knight\"}","h1":"{\"moved\":false,\"location\":[0,7],\"points\":5,\"alignment\":\"white\",\"notation\":\"R\",\"picture\":\"♖\",\"type\":\"rook\"}","a2":"{\"moved\":false,\"location\":[1,0],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","b2":"{\"moved\":false,\"location\":[1,1],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","c2":"{\"moved\":false,\"location\":[1,2],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","d2":"{\"moved\":false,\"location\":[1,3],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","e2":"{\"moved\":false,\"location\":[1,4],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","f2":"{\"moved\":false,\"location\":[1,5],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","g2":"{\"moved\":false,\"location\":[1,6],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","h2":"{\"moved\":false,\"location\":[1,7],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","a7":"{\"moved\":false,\"location\":[6,0],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","b7":"{\"moved\":false,\"location\":[6,1],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","c7":"{\"moved\":false,\"location\":[6,2],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","d7":"{\"moved\":false,\"location\":[6,3],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","e7":"{\"moved\":false,\"location\":[6,4],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","f7":"{\"moved\":false,\"location\":[6,5],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","g7":"{\"moved\":false,\"location\":[6,6],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","h7":"{\"moved\":false,\"location\":[6,7],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","a8":"{\"moved\":false,\"location\":[7,0],\"points\":5,\"alignment\":\"black\",\"notation\":\"R\",\"picture\":\"♜\",\"type\":\"rook\"}","b8":"{\"moved\":false,\"location\":[7,1],\"points\":3,\"alignment\":\"black\",\"notation\":\"N\",\"picture\":\"♞\",\"type\":\"knight\"}","c8":"{\"moved\":false,\"location\":[7,2],\"points\":3,\"alignment\":\"black\",\"notation\":\"B\",\"picture\":\"♝\",\"type\":\"bishop\"}","d8":"{\"moved\":false,\"location\":[7,3],\"points\":9,\"alignment\":\"black\",\"notation\":\"Q\",\"picture\":\"♛\",\"type\":\"queen\"}","e8":"{\"moved\":false,\"location\":[7,4],\"points\":100,\"alignment\":\"black\",\"notation\":\"K\",\"picture\":\"♚\",\"type\":\"king\"}","f8":"{\"moved\":false,\"location\":[7,5],\"points\":3,\"alignment\":\"black\",\"notation\":\"B\",\"picture\":\"♝\",\"type\":\"bishop\"}","g8":"{\"moved\":false,\"location\":[7,6],\"points\":3,\"alignment\":\"black\",\"notation\":\"N\",\"picture\":\"♞\",\"type\":\"knight\"}","h8":"{\"moved\":false,\"location\":[7,7],\"points\":5,\"alignment\":\"black\",\"notation\":\"R\",\"picture\":\"♜\",\"type\":\"rook\"}"}')
+  # game = Chess.from_json('{"turn":2,"history":[],"a1":"{\"moved\":false,\"location\":[0,0],\"points\":5,\"alignment\":\"white\",\"notation\":\"R\",\"picture\":\"♖\",\"type\":\"rook\"}","b1":"{\"moved\":false,\"location\":[0,1],\"points\":3,\"alignment\":\"white\",\"notation\":\"N\",\"picture\":\"♘\",\"type\":\"knight\"}","c1":"{\"moved\":false,\"location\":[0,2],\"points\":3,\"alignment\":\"white\",\"notation\":\"B\",\"picture\":\"♗\",\"type\":\"bishop\"}","d1":"{\"moved\":false,\"location\":[0,3],\"points\":9,\"alignment\":\"white\",\"notation\":\"Q\",\"picture\":\"♕\",\"type\":\"queen\"}","e1":"{\"moved\":false,\"location\":[0,4],\"points\":100,\"alignment\":\"white\",\"notation\":\"K\",\"picture\":\"♔\",\"type\":\"king\"}","f1":"{\"moved\":false,\"location\":[0,5],\"points\":3,\"alignment\":\"white\",\"notation\":\"B\",\"picture\":\"♗\",\"type\":\"bishop\"}","g1":"{\"moved\":false,\"location\":[0,6],\"points\":3,\"alignment\":\"white\",\"notation\":\"N\",\"picture\":\"♘\",\"type\":\"knight\"}","h1":"{\"moved\":false,\"location\":[0,7],\"points\":5,\"alignment\":\"white\",\"notation\":\"R\",\"picture\":\"♖\",\"type\":\"rook\"}","a2":"{\"moved\":false,\"location\":[1,0],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","b2":"{\"moved\":false,\"location\":[1,1],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","c2":"{\"moved\":false,\"location\":[1,2],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","d2":"{\"moved\":false,\"location\":[1,3],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","e2":"{\"moved\":false,\"location\":[1,4],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","f2":"{\"moved\":false,\"location\":[1,5],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","g2":"{\"moved\":false,\"location\":[1,6],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","h2":"{\"moved\":false,\"location\":[1,7],\"points\":1,\"alignment\":\"white\",\"notation\":\"\",\"picture\":\"♙\",\"type\":\"pawn\"}","a7":"{\"moved\":false,\"location\":[6,0],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","b7":"{\"moved\":false,\"location\":[6,1],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","c7":"{\"moved\":false,\"location\":[6,2],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","d7":"{\"moved\":false,\"location\":[6,3],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","e7":"{\"moved\":false,\"location\":[6,4],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","f7":"{\"moved\":false,\"location\":[6,5],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","g7":"{\"moved\":false,\"location\":[6,6],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","h7":"{\"moved\":false,\"location\":[6,7],\"points\":1,\"alignment\":\"black\",\"notation\":\"\",\"picture\":\"♟\",\"type\":\"pawn\"}","a8":"{\"moved\":false,\"location\":[7,0],\"points\":5,\"alignment\":\"black\",\"notation\":\"R\",\"picture\":\"♜\",\"type\":\"rook\"}","b8":"{\"moved\":false,\"location\":[7,1],\"points\":3,\"alignment\":\"black\",\"notation\":\"N\",\"picture\":\"♞\",\"type\":\"knight\"}","c8":"{\"moved\":false,\"location\":[7,2],\"points\":3,\"alignment\":\"black\",\"notation\":\"B\",\"picture\":\"♝\",\"type\":\"bishop\"}","d8":"{\"moved\":false,\"location\":[7,3],\"points\":9,\"alignment\":\"black\",\"notation\":\"Q\",\"picture\":\"♛\",\"type\":\"queen\"}","e8":"{\"moved\":false,\"location\":[7,4],\"points\":100,\"alignment\":\"black\",\"notation\":\"K\",\"picture\":\"♚\",\"type\":\"king\"}","f8":"{\"moved\":false,\"location\":[7,5],\"points\":3,\"alignment\":\"black\",\"notation\":\"B\",\"picture\":\"♝\",\"type\":\"bishop\"}","g8":"{\"moved\":false,\"location\":[7,6],\"points\":3,\"alignment\":\"black\",\"notation\":\"N\",\"picture\":\"♞\",\"type\":\"knight\"}","h8":"{\"moved\":false,\"location\":[7,7],\"points\":5,\"alignment\":\"black\",\"notation\":\"R\",\"picture\":\"♜\",\"type\":\"rook\"}"}') # rubocop:disable Layout/LineLength
   # game.display
 end

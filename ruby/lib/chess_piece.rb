@@ -4,7 +4,7 @@ require 'json'
 
 # Parent class for chess
 class ChessPiece # rubocop:disable Metrics/ClassLength
-  attr_reader :picture, :alignment, :type
+  attr_reader :picture, :alignment, :type, :points
   attr_accessor :en_passant, :moved, :location
 
   def initialize(location, points, alignment, notation, picture, type) # rubocop:disable Metrics/ParameterLists
@@ -89,15 +89,28 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
     false
   end
 
+  def in_checkmate?(board, side_to_check = @alignment)
+    # get the current side
+    current_side = board.flatten.select { |cell| !cell.nil? && cell.alignment == side_to_check }
+    current_side.each do |piece|
+      moves = piece.potential_moves(board)
+      return false if moves.length.positive?
+    end
+    true
+  end
+
   # Column-Row and special move. Return new board, any taken piece and if in check
   def preview_move(destination_special_move, board) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-    new_board = board.map(&:dup)
+    new_board = board.map { |row| row.map(&:dup) }
     special_move = destination_special_move[1]
     destination = destination_special_move[0].to_s.chars.reverse.map(&:to_i)
     # pp destination
+    # puts 'location piece'
+    # pp new_board[@location[0]][@location[1]]
+    # pp @location
 
     if special_move.nil? || special_move == 'doubleStep' || special_move.start_with?('enPassant')
-      taken_piece = new_board[destination[0]][destination[1]]
+      # taken_piece = new_board[destination[0]][destination[1]]
       new_board[destination[0]][destination[1]] = new_board[@location[0]][@location[1]]
       new_board[@location[0]][@location[1]] = nil
     end
@@ -105,7 +118,7 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
     if !special_move.nil? && special_move.start_with?('enPassant')
       take_piece_col_row = special_move.split('_')[1]
       take_piece_location = take_piece_col_row.chars.reverse.map(&:to_i)
-      taken_piece = new_board[take_piece_location[0]][take_piece_location[1]]
+      # taken_piece = new_board[take_piece_location[0]][take_piece_location[1]]
       new_board[take_piece_location[0]][take_piece_location[1]] = nil
     end
 
@@ -115,7 +128,7 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
       rook_location = []
       rook_new_location = []
       king_new_location = []
-      king_location = board.flatten.compact.select do |cell|
+      king_location = new_board.flatten.compact.select do |cell|
                         cell.alignment == @alignment && cell.type == 'king'
                       end[0].location
       if castle_type == '0-0-0'
@@ -159,13 +172,14 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
     end
 
     # set other side en passant to false
-    other_passants = new_board.flatten.compact.select { |cell| cell.alignment != @alignment && cell.en_passant }
-    other_passants.each { |cell| cell.en_passant = false }
+    other_passant = new_board.flatten.compact.select { |cell| cell.alignment != @alignment && cell.en_passant }
+    other_passant.each { |cell| cell.en_passant = false }
 
-    [new_board, taken_piece, in_check?(new_board, if @alignment == 'black'
-                                                    'white'
-                                                  else
-                                                    'black'
-                                                  end)]
+    # [new_board, taken_piece, in_check?(new_board, if @alignment == 'black'
+    #                                                 'white'
+    #                                               else
+    #                                                 'black'
+    #                                               end)]
+    new_board
   end
 end
