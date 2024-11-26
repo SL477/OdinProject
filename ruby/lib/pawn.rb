@@ -2,7 +2,7 @@
 
 # Pawn class
 class Pawn < ChessPiece
-  # TODO: set en_passant to true on the first move and then set to false on subsequent moves
+  # DONE: set en_passant to true on the first move and then set to false on subsequent moves
   def initialize(location, alignment, en_passant = false) # rubocop:disable Style/OptionalBooleanParameter
     pic = if alignment == 'black'
             "\u265F"

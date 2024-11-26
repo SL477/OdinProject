@@ -101,6 +101,7 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
 
   # Column-Row and special move. Return new board, any taken piece and if in check
   def preview_move(destination_special_move, board) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    # TODO: Pawn promotion
     new_board = board.map { |row| row.map(&:dup) }
     special_move = destination_special_move[1]
     destination = destination_special_move[0].to_s.chars.reverse.map(&:to_i)
