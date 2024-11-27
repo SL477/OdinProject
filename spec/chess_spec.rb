@@ -197,4 +197,15 @@ describe Chess do # rubocop:disable Metrics/BlockLength
     result = moves.map { |cell| cell[0] }.include?(:'00')
     expect(result).to be true
   end
+
+  it 'Pawn promotion' do
+    game = Chess.new({
+      'a7' => '{"moved":false,"location":[0,6],"points":1,"alignment":"white","notation":"","type":"pawn","en_passant":false}'
+    })
+    row_col = game.get_row_column('A7')
+    destination_special_move = [:'07', 'promotion']
+    board = game.board[row_col[0]][row_col[1]].preview_move(destination_special_move, game.board)
+    result = board.flatten.compact.select { |cell| cell.type == 'queen' }.length == 1
+    expect(result).to be true
+  end
 end
