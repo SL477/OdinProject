@@ -19,7 +19,11 @@ class Pawn < ChessPiece
     if @alignment == 'black'
       square_in_front = board[@location[0] - 1][@location[1]].nil?
       if square_in_front
-        ret.push([:"#{@location[1]}#{@location[0] - 1}", nil])
+        if @location[0] - 1 <= 0
+          ret.push([:"#{@location[1]}#{@location[0] - 1}", 'promotion'])
+        else
+          ret.push([:"#{@location[1]}#{@location[0] - 1}", nil])
+        end
         if !@moved && board[@location[0] - 2][@location[1]].nil?
           ret.push([:"#{@location[1]}#{@location[0] - 2}",
                     'doubleStep'])
@@ -64,7 +68,11 @@ class Pawn < ChessPiece
     else
       square_in_front = board[@location[0] + 1][@location[1]].nil?
       if square_in_front
-        ret.push([:"#{@location[1]}#{@location[0] + 1}", nil])
+        if @location[0] + 1 >= 7
+          ret.push([:"#{@location[1]}#{@location[0] + 1}", 'promotion'])
+        else
+          ret.push([:"#{@location[1]}#{@location[0] + 1}", nil])
+        end
         if !@moved && board[@location[0] + 2][@location[1]].nil?
           ret.push([:"#{@location[1]}#{@location[0] + 2}", 'doubleStep'])
         end
