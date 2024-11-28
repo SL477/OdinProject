@@ -89,7 +89,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     puts '    A   B   C   D   E   F   G   H'
   end
 
-  def menu # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+  def menu # rubocop:disable Metrics/MethodLength,Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     puts '1 - Make move. E.g. 1 A2 A4'
     puts '2 - Show moves. E.g 2 A2'
     puts '3 - Save'
@@ -171,7 +171,7 @@ class Chess # rubocop:disable Metrics/ClassLength
   end
 
   def show_potential_moves(column_row) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
-    # TODO: human should not be able to put themselves in check/leave themself in check
+    # DONE: human should not be able to put themselves in check/leave themself in check
     row_col = get_row_column(column_row)
     if !row_col || board[row_col[0]][row_col[1]].nil?
       puts 'Invalid cell'
@@ -179,7 +179,8 @@ class Chess # rubocop:disable Metrics/ClassLength
       menu
       return
     end
-    moves = board[row_col[0]][row_col[1]].potential_moves(board)
+    moves = board[row_col[0]][row_col[1]].potential_moves_with_check_check(board)
+    # potential_moves(board)
     potential_moves = {}
     moves.each do |move|
       potential_moves[move[0]] = move[1]

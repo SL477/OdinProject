@@ -187,4 +187,14 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
     #                                               end)]
     new_board
   end
+
+  def potential_moves_with_check_check(board)
+    moves = potential_moves(board)
+    ret = []
+    moves.each do |move|
+      new_board = preview_move(move, board)
+      ret.push(move) unless in_check?(new_board)
+    end
+    ret
+  end
 end
