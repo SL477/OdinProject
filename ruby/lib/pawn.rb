@@ -17,7 +17,11 @@ class Pawn < ChessPiece
   def potential_moves(board) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
     ret = []
     if @alignment == 'black'
-      square_in_front = board[@location[0] - 1][@location[1]].nil?
+      square_in_front = if @location[0] - 1 >= 0
+                          board[@location[0] - 1][@location[1]].nil?
+                        else
+                          false
+                        end
       if square_in_front
         if @location[0] - 1 <= 0
           ret.push([:"#{@location[1]}#{@location[0] - 1}", 'promotion'])
@@ -66,7 +70,11 @@ class Pawn < ChessPiece
         end
       end
     else
-      square_in_front = board[@location[0] + 1][@location[1]].nil?
+      square_in_front = if @location[0] + 1 < 8
+                          board[@location[0] + 1][@location[1]].nil?
+                        else
+                          false
+                        end
       if square_in_front
         if @location[0] + 1 >= 7
           ret.push([:"#{@location[1]}#{@location[0] + 1}", 'promotion'])

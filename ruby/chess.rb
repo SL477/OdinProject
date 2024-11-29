@@ -125,6 +125,10 @@ class Chess # rubocop:disable Metrics/ClassLength
       dest = to_row_column(best_split[1][4].to_i, best_split[1][3].to_i).upcase
       puts "Hint: #{org} #{dest}"
       menu
+    elsif input == '4'
+      display
+      show_history
+      menu
     else
       puts 'Invalid option'
       display
@@ -133,9 +137,11 @@ class Chess # rubocop:disable Metrics/ClassLength
   end
 
   def show_history
+    puts 'History:'
     @history.each do |move|
-      puts move
+      puts "#{move[0]} - #{move[1].upcase} - #{move[2].upcase}"
     end
+    puts 'Menu:'
   end
 
   def number_or_minus1(string)
@@ -232,14 +238,21 @@ class Chess # rubocop:disable Metrics/ClassLength
       return
     end
 
-    @board = board[row_col_origin[0]][row_col_origin[1]].preview_move(
+    new_board = board[row_col_origin[0]][row_col_origin[1]].preview_move(
       [destination_col_row, potential_moves[destination_col_row]], board
     ) # [0]
 
-    # TODO: add to history
+    # Add to history
+    white_move = get_algebraic_notation(@board, row_col_origin, new_board,
+                                        [destination_col_row, potential_moves[destination_col_row]])
+    @history.push([@turn.to_s, white_move, ''])
+    @board = new_board
+
+    # Done: add to history
     first_piece = @board.flatten.compact[0]
     if first_piece.in_check?(@board, 'black') && first_piece.in_checkmate?(@board, 'black')
       puts 'You won!'
+      @history.push([@turn.to_s, '1-0', ''])
       return
     end
 
@@ -249,11 +262,17 @@ class Chess # rubocop:disable Metrics/ClassLength
     ai_move = [best_split[1][3..4].to_sym, best_split[1][8..-2]]
     ai_move[1] = nil if ai_move[1] == 'nil'
     # puts "ai_move: #{ai_move}"
-    @board = @board[best_split[0][1].to_i][best_split[0][0].to_i].preview_move(ai_move, @board)
+    new_board = @board[best_split[0][1].to_i][best_split[0][0].to_i].preview_move(ai_move, @board)
+
+    # Add to history
+    black_move = get_algebraic_notation(@board, [best_split[0][1].to_i, best_split[0][0].to_i], new_board, ai_move)
+    @history[-1][2] = black_move
+    @board = new_board
 
     first_piece = @board.flatten.compact[0]
     if first_piece.in_check?(@board, 'white') && first_piece.in_checkmate?(@board, 'white')
       puts 'You lost!'
+      @history.push([@turn.to_s, '0-1', ''])
       return
     end
 
@@ -351,6 +370,66 @@ class Chess # rubocop:disable Metrics/ClassLength
 
     # Step 17
     all_test_play_infos[best_test_play]
+  end
+
+  def get_algebraic_notation(org_board, origin, new_board, move) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+    return move[1].split('_')[1] if !move[1].nil? && move[1].start_with?('castle')
+
+    # Check for check
+    org_piece = org_board[origin[0]][origin[1]]
+
+    other_side = if org_piece.alignment == 'white'
+                   'black'
+                 else
+                   'white'
+                 end
+    is_check = org_piece.in_check?(new_board, other_side)
+    is_checkmate = is_check && org_piece.in_checkmate?(new_board, other_side)
+
+    # Check for captures
+    start_opponent_pieces = org_board.flatten.compact.select { |cell| cell.alignment == other_side }.length
+    end_opponent_pieces = new_board.flatten.compact.select { |cell| cell.alignment == other_side }.length
+    captured = if end_opponent_pieces < start_opponent_pieces
+                 'x'
+               else
+                 ''
+               end
+
+    # Disambiguation
+    other_pieces = org_board.flatten.compact.select do |cell|
+      cell.alignment == org_piece.alignment && cell.type == org_piece.type &&
+        !(cell.location[0] == org_piece.location[0] && cell.location[1] == org_piece.location[1])
+    end
+    other_pieces_locations = []
+    other_pieces.each do |piece|
+      potential_moves = piece.potential_moves(org_board)
+      potential_moves.each do |potential_move|
+        other_pieces_locations.push(piece.location) if potential_move[0] == move[0]
+      end
+    end
+
+    if other_pieces_locations.length > 1
+      disambiguation = to_row_column(org_piece.location[0], org_piece.location[1])
+    elsif other_pieces_locations.length == 1 && other_pieces_locations[0][1] == org_piece.location[1] # rubocop:disable Lint/DuplicateBranch
+      disambiguation = to_row_column(org_piece.location[0], org_piece.location[1])
+    elsif other_pieces_locations.length == 1 || captured == 'x'
+      disambiguation = to_row_column(org_piece.location[0], org_piece.location[1])[0]
+    else
+      disambiguation = ''
+    end
+
+    notation = org_piece.notation
+    destination = move[0].to_s.chars
+    destination = to_row_column(destination[1].to_i, destination[0].to_i)
+    special = if is_checkmate
+                '#'
+              elsif is_check
+                '+'
+              else
+                ''
+              end
+
+    notation + disambiguation + captured + destination + special
   end
 end
 

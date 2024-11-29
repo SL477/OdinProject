@@ -4,7 +4,7 @@ require 'json'
 
 # Parent class for chess
 class ChessPiece # rubocop:disable Metrics/ClassLength
-  attr_reader :picture, :alignment, :type, :points
+  attr_reader :picture, :alignment, :type, :points, :notation
   attr_accessor :en_passant, :moved, :location
 
   def initialize(location, points, alignment, notation, picture, type) # rubocop:disable Metrics/ParameterLists
