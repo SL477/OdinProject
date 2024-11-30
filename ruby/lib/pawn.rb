@@ -22,12 +22,10 @@ class Pawn < ChessPiece
                         else
                           false
                         end
+      promotion = ('promotion' if @location[0] - 1 <= 0)
       if square_in_front
-        if @location[0] - 1 <= 0
-          ret.push([:"#{@location[1]}#{@location[0] - 1}", 'promotion'])
-        else
-          ret.push([:"#{@location[1]}#{@location[0] - 1}", nil])
-        end
+        ret.push([:"#{@location[1]}#{@location[0] - 1}", promotion])
+
         if !@moved && board[@location[0] - 2][@location[1]].nil?
           ret.push([:"#{@location[1]}#{@location[0] - 2}",
                     'doubleStep'])
@@ -35,18 +33,18 @@ class Pawn < ChessPiece
       end
 
       # left attack
-      if (@location[1]).positive?
+      if is_valid_location?([@location[0] - 1, @location[1] - 1], board)[0]
         left_attack_square = board[@location[0] - 1][@location[1] - 1]
         if !left_attack_square.nil? && left_attack_square.alignment == 'white'
-          ret.push([:"#{@location[1] - 1}#{@location[0] - 1}", nil])
+          ret.push([:"#{@location[1] - 1}#{@location[0] - 1}", promotion])
         end
       end
 
       # right attack
-      if @location[1] < 6
+      if is_valid_location?([@location[0] - 1, @location[1] + 1], board)[0]
         right_attack_square = board[@location[0] - 1][@location[1] + 1]
         if !right_attack_square.nil? && right_attack_square.alignment == 'white'
-          ret.push([:"#{@location[1] + 1}#{@location[0] - 1}", nil])
+          ret.push([:"#{@location[1] + 1}#{@location[0] - 1}", promotion])
         end
       end
 
@@ -75,30 +73,28 @@ class Pawn < ChessPiece
                         else
                           false
                         end
+      promotion = ('promotion' if @location[0] + 1 >= 7)
       if square_in_front
-        if @location[0] + 1 >= 7
-          ret.push([:"#{@location[1]}#{@location[0] + 1}", 'promotion'])
-        else
-          ret.push([:"#{@location[1]}#{@location[0] + 1}", nil])
-        end
+        ret.push([:"#{@location[1]}#{@location[0] + 1}", promotion])
+
         if !@moved && board[@location[0] + 2][@location[1]].nil?
           ret.push([:"#{@location[1]}#{@location[0] + 2}", 'doubleStep'])
         end
       end
 
       # left attack
-      if (@location[1]).positive?
+      if is_valid_location?([@location[0] + 1, @location[1] - 1], board)[0]
         left_attack_square = board[@location[0] + 1][@location[1] - 1]
         if !left_attack_square.nil? && left_attack_square.alignment == 'black'
-          ret.push([:"#{@location[1] - 1}#{@location[0] + 1}", nil])
+          ret.push([:"#{@location[1] - 1}#{@location[0] + 1}", promotion])
         end
       end
 
       # right attack
-      if @location[1] < 6
+      if is_valid_location?([@location[0] + 1, @location[1] + 1], board)[0]
         right_attack_square = board[@location[0] + 1][@location[1] + 1]
         if !right_attack_square.nil? && right_attack_square.alignment == 'black'
-          ret.push([:"#{@location[1] + 1}#{@location[0] + 1}", nil])
+          ret.push([:"#{@location[1] + 1}#{@location[0] + 1}", promotion])
         end
       end
 

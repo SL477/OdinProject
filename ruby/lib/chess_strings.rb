@@ -2,11 +2,13 @@
 
 # Overload string
 class String
-  def colourise(white, move_to, capture_to)
+  def colourise(white, move_to, capture_to, org_move) # rubocop:disable Metrics/MethodLength
     if move_to
       green_bg
     elsif capture_to
       red_bg
+    elsif org_move
+      blue_bg
     elsif white
       white_bg
     else
@@ -24,6 +26,10 @@ class String
 
   def green_bg
     "\e[42m#{self}\e[0m"
+  end
+
+  def blue_bg
+    "\e[43m#{self}\e[0m"
   end
 
   def red_bg

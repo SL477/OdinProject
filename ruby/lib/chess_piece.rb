@@ -93,7 +93,7 @@ class ChessPiece # rubocop:disable Metrics/ClassLength
     # get the current side
     current_side = board.flatten.select { |cell| !cell.nil? && cell.alignment == side_to_check }
     current_side.each do |piece|
-      moves = piece.potential_moves(board)
+      moves = piece.potential_moves_with_check_check(board)
       return false if moves.length.positive?
     end
     true

@@ -68,7 +68,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def display(potential_moves = {}) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+  def display(potential_moves = {}, org_moves = {}) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
     # pp @board
     puts "Turn - #{@turn}"
     white = true
@@ -77,10 +77,11 @@ class Chess # rubocop:disable Metrics/ClassLength
       row_word = "#{row + 1} "
       @board[row].each_with_index do |cell, col|
         row_word += if cell.nil?
-                      '    '.colourise(white, potential_moves.key?(:"#{col}#{row}"), false)
+                      '    '.colourise(white, potential_moves.key?(:"#{col}#{row}"), false, false)
                     else
                       " #{cell.picture}  ".colour_in(cell.alignment).colourise(white, false,
-                                                                               potential_moves.key?(:"#{col}#{row}"))
+                                                                               potential_moves.key?(:"#{col}#{row}"),
+                                                                               org_moves.key?(:"#{col}#{row}"))
                     end
         white = !white
       end
@@ -96,7 +97,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     puts '4 - Show history'
     puts '5 - Load'
     puts '6 - Get hint'
-    # TODO: Show moves, show all moves. Show history. Give a hint for the next move
+    # Done: Show moves, show all moves. Show history. Give a hint for the next move
 
     input = gets
     input = input.strip
@@ -111,15 +112,21 @@ class Chess # rubocop:disable Metrics/ClassLength
       menu
     elsif input.start_with?('2') && arr.length > 1
       show_potential_moves(arr[1])
+    elsif input.start_with?('2')
+      show_all_potential_moves
     elsif input.start_with?('1') && arr.length == 3
       make_move(arr[1], arr[2])
     elsif input == '6'
-      best_move = mini_max(@board, 'white')
+      begin
+        best_move = mini_max(@board, 'white')
+      rescue SystemStackError
+        best_move = random_move(@board, 'white')
+      end
       # puts best_move
       # puts best_move.score
       # puts best_move.index
       display
-      puts best_move.index
+      # puts best_move.index
       best_split = best_move.index.split('-')
       org = to_row_column(best_split[0][1].to_i, best_split[0][0].to_i).upcase
       dest = to_row_column(best_split[1][4].to_i, best_split[1][3].to_i).upcase
@@ -191,7 +198,23 @@ class Chess # rubocop:disable Metrics/ClassLength
     moves.each do |move|
       potential_moves[move[0]] = move[1]
     end
-    display(potential_moves)
+    origins = { "#{row_col[1]}#{row_col[0]}": false }
+    display(potential_moves, origins)
+    menu
+  end
+
+  def show_all_potential_moves # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    current_side = board.flatten.compact.select { |cell| cell.alignment == 'white' }
+    potential_moves = {}
+    origins = {}
+    current_side.each do |piece|
+      moves = piece.potential_moves_with_check_check(board)
+      origins[:"#{piece.location[1]}#{piece.location[0]}"] = false if moves.length.positive?
+      moves.each do |move|
+        potential_moves[move[0]] = move[1]
+      end
+    end
+    display(potential_moves, origins)
     menu
   end
 
@@ -213,7 +236,8 @@ class Chess # rubocop:disable Metrics/ClassLength
   def make_move(origin, destination) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     row_col_origin = get_row_column(origin)
     row_col_destination = get_row_column(destination)
-    if !row_col_origin || board[row_col_origin[0]][row_col_origin[1]].nil? || !row_col_destination
+    selected_cell = board[row_col_origin[0]][row_col_origin[1]]
+    if !row_col_origin || selected_cell.nil? || !row_col_destination || selected_cell.alignment == 'black'
       puts 'Invalid cell or destination'
       display
       menu
@@ -251,18 +275,54 @@ class Chess # rubocop:disable Metrics/ClassLength
     # Done: add to history
     first_piece = @board.flatten.compact[0]
     if first_piece.in_check?(@board, 'black') && first_piece.in_checkmate?(@board, 'black')
+      display
       puts 'You won!'
       @history.push([@turn.to_s, '1-0', ''])
       return
     end
 
-    best_move = mini_max(@board, 'black')
+    begin
+      need_check_check = true
+      best_move = mini_max(@board, 'black')
+      if best_move.index == -1
+        need_check_check = false
+        best_move = random_move(@board, 'black')
+      end
+    rescue SystemStackError
+      need_check_check = false
+      best_move = random_move(@board, 'black')
+    end
+
+    if best_move.nil?
+      display
+      puts 'Draw!'
+      @history.push([@turn.to_s, '1/2', '1/2'])
+      return
+    end
     best_split = best_move.index.split('-')
     # puts "best_move: #{best_move.index}"
-    ai_move = [best_split[1][3..4].to_sym, best_split[1][8..-2]]
-    ai_move[1] = nil if ai_move[1] == 'nil'
+    ai_move = [best_split[1][3..4].to_sym, best_split[1][9..-3]]
+    ai_move[1] = nil if best_split[1][8..-2] == 'nil'
     # puts "ai_move: #{ai_move}"
     new_board = @board[best_split[0][1].to_i][best_split[0][0].to_i].preview_move(ai_move, @board)
+
+    if need_check_check && new_board.flatten.compact.select do |piece|
+                             piece.alignment == 'black'
+                           end[0].in_check?(new_board)
+      best_move = random_move(@board, 'black')
+      if best_move.nil?
+        display
+        puts 'Draw!'
+        @history.push([@turn.to_s, '1/2', '1/2'])
+        return
+      end
+      # puts "best_move: #{best_move.index}"
+      best_split = best_move.index.split('-')
+      ai_move = [best_split[1][3..4].to_sym, best_split[1][9..-3]]
+      ai_move[1] = nil if best_split[1][8..-2] == 'nil'
+      # puts "ai_move: #{ai_move}"
+      new_board = @board[best_split[0][1].to_i][best_split[0][0].to_i].preview_move(ai_move, @board)
+    end
 
     # Add to history
     black_move = get_algebraic_notation(@board, [best_split[0][1].to_i, best_split[0][0].to_i], new_board, ai_move)
@@ -271,8 +331,14 @@ class Chess # rubocop:disable Metrics/ClassLength
 
     first_piece = @board.flatten.compact[0]
     if first_piece.in_check?(@board, 'white') && first_piece.in_checkmate?(@board, 'white')
+      display
       puts 'You lost!'
       @history.push([@turn.to_s, '0-1', ''])
+      return
+    elsif first_piece.in_checkmate?(@board, 'white')
+      display
+      puts 'Draw!'
+      @history.push([@turn.to_s, '1/2', '1/2'])
       return
     end
 
@@ -294,8 +360,15 @@ class Chess # rubocop:disable Metrics/ClassLength
     current_side_pieces = current_board_state.flatten.select do |cell|
       !cell.nil? && cell.alignment == current_alignment
     end
+
+    is_check = current_side_pieces[0].in_check?(current_board_state)
+
     current_side_pieces.each do |piece|
-      moves = piece.potential_moves(current_board_state)
+      moves = if is_check
+                piece.potential_moves_with_check_check(current_board_state)
+              else
+                piece.potential_moves(current_board_state)
+              end
       available_moves[piece] = moves if moves.length.positive?
     end
 
@@ -310,7 +383,7 @@ class Chess # rubocop:disable Metrics/ClassLength
     elsif available_moves.count <= 0
       return TestPlayInfo.new(0, -1)
     elsif depth <= 0
-      current_side_score = 0
+      current_side_score = 139
       current_side_pieces.each do |piece|
         current_side_score += piece.points
       end
@@ -430,6 +503,25 @@ class Chess # rubocop:disable Metrics/ClassLength
               end
 
     notation + disambiguation + captured + destination + special
+  end
+
+  def random_move(current_board_state, current_alignment) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+    current_side_pieces = current_board_state.flatten.select do |cell|
+      !cell.nil? && cell.alignment == current_alignment
+    end
+
+    # Pick a random piece, then a random move
+    potential_moves = {}
+    current_side_pieces.each do |piece|
+      moves = piece.potential_moves_with_check_check(current_board_state)
+
+      potential_moves[piece] = moves if moves.length.positive?
+    end
+    return nil if potential_moves.keys.length <= 0
+
+    selected_piece = potential_moves.keys.sample
+    TestPlayInfo.new(0,
+                     "#{selected_piece.location[1]}#{selected_piece.location[0]}-#{potential_moves[selected_piece].sample}") # rubocop:disable Layout/LineLength
   end
 end
 
