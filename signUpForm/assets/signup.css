@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+    font-family: Monserrat, var(--bs-body-font-family);
+    --create-button-colour: #596d48;
+    --input-border: #e5e7eb;
+    --invalid-input-border: red;
+    --selected-input-border: blue;
+}
+
+.column75 {
+    float: left;
+    width: 60%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+.column25 {
+    float: left;
+    width: 40%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 5%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    /* max-width: 25%; */
+}
+
+.row:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+img {
+    max-width: 100%;
+}
+
+html {
+    overflow-x: hidden;
+}

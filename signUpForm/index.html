@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Sign-up Form</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            href="https://link477.com/assets/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <script
+            src="https://link477.com/assets/js/bootstrap.bundle.min.js"
+            async
+        ></script>
+        <script src="https://link477.com/assets/js/components/my-navbar.js"></script>
+        <link rel="icon" href="https://link477.com/assets/images/link477.png" />
+        <link href="./assets/signup.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <my-navbar></my-navbar>
+            <br />
+            <br />
+            <br />
+            <br />
+        </header>
+        <div class="row">
+            <div class="column25">
+                <div class="banner">
+                    <figure>
+                        <img
+                            src="https://link477.com/assets/images/link477.png"
+                            alt="Link477"
+                        />
+                    </figure>
+                    <h1>Sign Up</h1>
+                </div>
+                <figure>
+                    <img
+                        src="./assets/emmet.jpg"
+                        alt="Emmet in front of Lego Hogwarts Express Train"
+                    />
+                    <figcaption>
+                        Photo by Tom Fishwick on
+                        <a
+                            href="https://link477.com"
+                            target="_blank"
+                            rel="noopener"
+                            >Link477.com</a
+                        >
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="column75">
+                <p>
+                    This is not a real online service! You know you need
+                    something like this in your life to help you realise your
+                    deepest dreams.
+                </p>
+                <p>Sign up <em>now</em> to get started.</p>
+                <br />
+                <p>You <em>know</em> you want to.</p>
+
+                <form>
+                    <div class="formEntry">
+                        <fieldset>
+                            <label for="firstName">First Name</label>
+                            <input
+                                type="text"
+                                name="firstName"
+                                id="firstName"
+                                placeholder="Thor"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <label for="lastName">Last Name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                id="lastName"
+                                placeholder="Odinson"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <label for="email">Email</label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="thor@asgard.com"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <label for="phone">Phone Number</label>
+                            <input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                placeholder="012345678910"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <label for="password">Password</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <label for="passwordConfirm"
+                                >Confirm Password</label
+                            >
+                            <input
+                                id="passwordConfirm"
+                                name="passwordConfirm"
+                                type="password"
+                            />
+                        </fieldset>
+                    </div>
+                    <input type="submit" value="Create Account" />
+                </form>
+                <p>
+                    Already have an account?
+                    <a href="https://link477.com" target="_blank" rel="noopener"
+                        >Log in</a
+                    >
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
