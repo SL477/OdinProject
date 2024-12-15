@@ -15,6 +15,7 @@
         <script src="https://link477.com/assets/js/components/my-navbar.js"></script>
         <link rel="icon" href="https://link477.com/assets/images/link477.png" />
         <link href="./assets/signup.css" rel="stylesheet" />
+        <script src="./assets/signup.js" async></script>
     </head>
     <body>
         <header>
@@ -74,7 +75,10 @@
                                 name="firstName"
                                 id="firstName"
                                 placeholder="Thor"
+                                maxlength="200"
+                                onchange="onChangeValidationMessage(this)"
                             />
+                            <p class="validationMessage"></p>
                         </fieldset>
                         <fieldset>
                             <label for="lastName">Last Name</label>
@@ -83,16 +87,22 @@
                                 name="lastName"
                                 id="lastName"
                                 placeholder="Odinson"
+                                maxlength="200"
+                                onchange="onChangeValidationMessage(this)"
                             />
+                            <p class="validationMessage"></p>
                         </fieldset>
                         <fieldset>
-                            <label for="email">Email</label>
+                            <label for="email" class="required">Email</label>
                             <input
                                 id="email"
                                 name="email"
                                 type="email"
                                 placeholder="thor@asgard.com"
+                                required
+                                onchange="onChangeValidationMessage(this)"
                             />
+                            <p class="validationMessage"></p>
                         </fieldset>
                         <fieldset>
                             <label for="phone">Phone Number</label>
@@ -101,25 +111,37 @@
                                 name="phone"
                                 type="tel"
                                 placeholder="012345678910"
+                                onchange="onChangeValidationMessage(this)"
                             />
+                            <p class="validationMessage"></p>
                         </fieldset>
                         <fieldset>
-                            <label for="password">Password</label>
+                            <label for="password" class="required"
+                                >Password</label
+                            >
                             <input
                                 id="password"
                                 name="password"
                                 type="password"
+                                autocomplete="new-password"
+                                required
+                                placeholder="Password"
                             />
+                            <p class="validationMessage"></p>
                         </fieldset>
                         <fieldset>
-                            <label for="passwordConfirm"
+                            <label for="passwordConfirm" class="required"
                                 >Confirm Password</label
                             >
                             <input
                                 id="passwordConfirm"
                                 name="passwordConfirm"
                                 type="password"
+                                autocomplete="new-password"
+                                required
+                                placeholder="Password"
                             />
+                            <p class="validationMessage"></p>
                         </fieldset>
                     </div>
 
