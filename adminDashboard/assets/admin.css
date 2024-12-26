@@ -31,6 +31,14 @@
     text-align: right;
 }
 
+.headerFirstRowRight span {
+    font-weight: bold;
+}
+
+.headerFirstRow input {
+    border: none;
+}
+
 .btns {
     text-align: right;
 }
@@ -46,6 +54,12 @@ nav a {
     color: white;
     text-decoration: none;
     display: block;
+}
+
+.centerImg {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
 /* Make things responsive*/
