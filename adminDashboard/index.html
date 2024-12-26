@@ -5,245 +5,268 @@
         <title>Admin Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="https://link477.com/assets/images/link477.png" />
+        <link href="./assets/admin.css" rel="stylesheet" />
     </head>
     <body>
-        <nav>
-            <a href="#">Dashboard</a>
-            <ul>
-                <li>
-                    <a
-                        href="https://link477.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >Home</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="https://link477.com/about"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >Profile</a
-                    >
-                </li>
-                <li>
-                    <a href="#">Messages</a>
-                </li>
-                <li>
-                    <a href="#">History</a>
-                </li>
-                <li>
-                    <a href="#">Tasks</a>
-                </li>
-                <li>
-                    <a href="#">Communities</a>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <a href="#">Settings</a>
-                </li>
-                <li>
-                    <a href="#">Support</a>
-                </li>
-                <li>
-                    <a href="#">Privacy</a>
-                </li>
-            </ul>
-        </nav>
-        <div>
-            <header>
-                <fieldset>
-                    <input
-                        type="search"
-                        name="search"
-                        id="search"
-                        aria-label="search"
-                    />
-                </fieldset>
-                <span>Tom Fishwick</span>
-                <div>
-                    <p>Hi there,</p>
-                    <h1>Tom Fishwick (@SL477)</h1>
-                    <div>
-                        <button type="button">New</button>
-                        <button type="button">Upload</button>
-                        <button type="button">Share</button>
+        <div class="grid-container">
+            <nav>
+                <a href="#">Dashboard</a>
+                <ul>
+                    <li>
+                        <a
+                            href="https://link477.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Home</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://link477.com/about"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Profile</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#">Messages</a>
+                    </li>
+                    <li>
+                        <a href="#">History</a>
+                    </li>
+                    <li>
+                        <a href="#">Tasks</a>
+                    </li>
+                    <li>
+                        <a href="#">Communities</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a href="#">Settings</a>
+                    </li>
+                    <li>
+                        <a href="#">Support</a>
+                    </li>
+                    <li>
+                        <a href="#">Privacy</a>
+                    </li>
+                </ul>
+            </nav>
+            <div>
+                <header>
+                    <div class="headerFirstRow">
+                        <div>
+                            <input
+                                type="search"
+                                name="search"
+                                id="search"
+                                aria-label="search"
+                            />
+                        </div>
+                        <div class="headerFirstRowRight">
+                            <span>Tom Fishwick</span>
+                        </div>
                     </div>
+                    <div class="headerSecondRow">
+                        <div>
+                            <p>Hi there,</p>
+                            <h1>Tom Fishwick (@SL477)</h1>
+                        </div>
+                        <div class="btns">
+                            <button type="button">New</button>
+                            <button type="button">Upload</button>
+                            <button type="button">Share</button>
+                        </div>
+                    </div>
+                </header>
+                <div class="mainContentContainer">
+                    <main>
+                        <div class="projects">
+                            <h2>Your Projects</h2>
+                            <div>
+                                <legend>Chart the Stock Market</legend>
+                                <p>
+                                    This project started as my answer to
+                                    FreeCodeCamp Chart the Stock Market. Here I
+                                    created a flask app with web sockets. To
+                                    chart the stock market.
+                                </p>
+                                <a
+                                    href="https://stocks.link477.com/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Live</a
+                                >
+                                <a
+                                    href="https://github.com/SL477/flask-stockMarketChart"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Source</a
+                                >
+                            </div>
+                            <div>
+                                <legend>
+                                    Predict Health Costs With Regression
+                                </legend>
+                                <p>
+                                    This project started as my answer to
+                                    FreeCodeCamp Predict Health Costs With
+                                    Regression. Here I created my first
+                                    Streamlit App, and then discovered how hard
+                                    it was to put streamlit into a Docker
+                                    container. Here you can see the difference
+                                    between the model's predictions and the
+                                    actual data. You can then use the controls
+                                    to predict your health costs. I later
+                                    revisited it to tear out all of the
+                                    TensorFlow code and replace its model with a
+                                    Random Forest Regressor
+                                </p>
+                                <a
+                                    href="https://sl477-fccpredicthealthcostswithregression-main-tdzqp8.streamlitapp.com/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Live</a
+                                >
+                                <a
+                                    href="https://github.com/SL477/fccPredictHealthCostsWithRegression"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Source</a
+                                >
+                            </div>
+                            <div>
+                                <legend>Cat and Dog Image Classifier</legend>
+                                <p>
+                                    This started out as my answer to
+                                    FreeCodeCamp Cat and Dog Image Classifier. I
+                                    created a Node.JS app which uses
+                                    TensorFlow.JS with the converted model I
+                                    made to determine whether the image passed
+                                    is more likely to be a cat or a dog (with
+                                    not so great accuracy).
+                                </p>
+                                <a
+                                    href="https://catvdog.link477.com/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Live</a
+                                >
+                                <a
+                                    href="https://github.com/SL477/fccCatAndDog"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Source</a
+                                >
+                            </div>
+                            <div>
+                                <legend>SMS Classifier</legend>
+                                <p>
+                                    This project originally started as my answer
+                                    to FreeCodeCamp SMS Classifier. In this
+                                    project I created my first Flask Web App
+                                    (not including the tutorial I did). Plus my
+                                    first Docker Container (outside of a
+                                    tutorial). Originally this used TensorFlow
+                                    as the machine learning library, but I have
+                                    now changed this to SciKit Learn. In the web
+                                    app you can test the classification of
+                                    various texts, the client side JavaScript
+                                    will post a request to the API which in turn
+                                    will consult the saved SKLearn model. You
+                                    can then press the "Add to database" button,
+                                    this will push it into the local database (a
+                                    SQLite database inside the Docker
+                                    container). In the data table at the front
+                                    end you can flip the classification of
+                                    messages between spam and ham. You can also
+                                    delete that entry out of the database.
+                                    Pressing the "Retrain Model" button will
+                                    cause the Flask server to retrain the
+                                    Machine Learning model on the data in the
+                                    SQLite database. It will then test the model
+                                    against the validation data from
+                                    FreeCodeCamp (the main data is also from
+                                    FreeCodeCamp). This may take a little while,
+                                    it will then save the model in the Docker
+                                    container and then use that. To build the
+                                    model manually you can run the file
+                                    modelmaker.py.
+                                </p>
+                                <a
+                                    href="https://github.com/SL477/flaskSMSClassifier"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Source</a
+                                >
+                            </div>
+                            <div>
+                                <legend>XKCD Reader</legend>
+                                <p>
+                                    My XKCD Reader app, which uses React-Native
+                                    to render the XKCD website. The Android APK
+                                    file (tested on my phone and in the Android
+                                    emulator) is available at the link above.
+                                </p>
+                                <a
+                                    href="https://drive.google.com/drive/folders/1_jtg6b4z-SArgA5KvZkewE4TjUxHe29F?usp=sharing"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Live</a
+                                >
+                            </div>
+                            <div>
+                                <legend>PizzaKG</legend>
+                                <p>
+                                    This project was something I did after
+                                    university following the specifications of
+                                    the SWTKG module which I didn't take.
+                                </p>
+                                <a
+                                    href="https://link477.com/Pizza_KG/Pizza_KG.html"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Live</a
+                                >
+                                <a
+                                    href="https://github.com/SL477/Pizza_KG"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Source</a
+                                >
+                            </div>
+                        </div>
+                    </main>
+                    <aside>
+                        <div class="announcements">
+                            <h3>Announcements</h3>
+                            <div>
+                                <legend>Site Maintenance</legend>
+                                <p>
+                                    This site goes down whenever Github performs
+                                    maintenance.
+                                </p>
+                            </div>
+                            <div>
+                                <legend>Community Share Day</legend>
+                                <p>Have fun sharing!</p>
+                            </div>
+                            <div>
+                                <legend>Updated Privacy Policy</legend>
+                                <p>Have some privacy.</p>
+                            </div>
+                        </div>
+                        <div class="trending">
+                            <legend>Trending</legend>
+                            <div>
+                                <legend>@SL477</legend>
+                                <p>Site Builder</p>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
-            </header>
-            <main>
-                <div class="projects">
-                    <h2>Your Projects</h2>
-                    <div>
-                        <legend>Chart the Stock Market</legend>
-                        <p>
-                            This project started as my answer to FreeCodeCamp
-                            Chart the Stock Market. Here I created a flask app
-                            with web sockets. To chart the stock market.
-                        </p>
-                        <a
-                            href="https://stocks.link477.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Live</a
-                        >
-                        <a
-                            href="https://github.com/SL477/flask-stockMarketChart"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Source</a
-                        >
-                    </div>
-                    <div>
-                        <legend>Predict Health Costs With Regression</legend>
-                        <p>
-                            This project started as my answer to FreeCodeCamp
-                            Predict Health Costs With Regression. Here I created
-                            my first Streamlit App, and then discovered how hard
-                            it was to put streamlit into a Docker container.
-                            Here you can see the difference between the model's
-                            predictions and the actual data. You can then use
-                            the controls to predict your health costs. I later
-                            revisited it to tear out all of the TensorFlow code
-                            and replace its model with a Random Forest Regressor
-                        </p>
-                        <a
-                            href="https://sl477-fccpredicthealthcostswithregression-main-tdzqp8.streamlitapp.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Live</a
-                        >
-                        <a
-                            href="https://github.com/SL477/fccPredictHealthCostsWithRegression"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Source</a
-                        >
-                    </div>
-                    <div>
-                        <legend>Cat and Dog Image Classifier</legend>
-                        <p>
-                            This started out as my answer to FreeCodeCamp Cat
-                            and Dog Image Classifier. I created a Node.JS app
-                            which uses TensorFlow.JS with the converted model I
-                            made to determine whether the image passed is more
-                            likely to be a cat or a dog (with not so great
-                            accuracy).
-                        </p>
-                        <a
-                            href="https://catvdog.link477.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Live</a
-                        >
-                        <a
-                            href="https://github.com/SL477/fccCatAndDog"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Source</a
-                        >
-                    </div>
-                    <div>
-                        <legend>SMS Classifier</legend>
-                        <p>
-                            This project originally started as my answer to
-                            FreeCodeCamp SMS Classifier. In this project I
-                            created my first Flask Web App (not including the
-                            tutorial I did). Plus my first Docker Container
-                            (outside of a tutorial). Originally this used
-                            TensorFlow as the machine learning library, but I
-                            have now changed this to SciKit Learn. In the web
-                            app you can test the classification of various
-                            texts, the client side JavaScript will post a
-                            request to the API which in turn will consult the
-                            saved SKLearn model. You can then press the "Add to
-                            database" button, this will push it into the local
-                            database (a SQLite database inside the Docker
-                            container). In the data table at the front end you
-                            can flip the classification of messages between spam
-                            and ham. You can also delete that entry out of the
-                            database. Pressing the "Retrain Model" button will
-                            cause the Flask server to retrain the Machine
-                            Learning model on the data in the SQLite database.
-                            It will then test the model against the validation
-                            data from FreeCodeCamp (the main data is also from
-                            FreeCodeCamp). This may take a little while, it will
-                            then save the model in the Docker container and then
-                            use that. To build the model manually you can run
-                            the file modelmaker.py.
-                        </p>
-                        <a
-                            href="https://github.com/SL477/flaskSMSClassifier"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Source</a
-                        >
-                    </div>
-                    <div>
-                        <legend>XKCD Reader</legend>
-                        <p>
-                            My XKCD Reader app, which uses React-Native to
-                            render the XKCD website. The Android APK file
-                            (tested on my phone and in the Android emulator) is
-                            available at the link above.
-                        </p>
-                        <a
-                            href="https://drive.google.com/drive/folders/1_jtg6b4z-SArgA5KvZkewE4TjUxHe29F?usp=sharing"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Live</a
-                        >
-                    </div>
-                    <div>
-                        <legend>PizzaKG</legend>
-                        <p>
-                            This project was something I did after university
-                            following the specifications of the SWTKG module
-                            which I didn't take.
-                        </p>
-                        <a
-                            href="https://link477.com/Pizza_KG/Pizza_KG.html"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Live</a
-                        >
-                        <a
-                            href="https://github.com/SL477/Pizza_KG"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >Source</a
-                        >
-                    </div>
-                </div>
-            </main>
-            <aside>
-                <div class="announcements">
-                    <h3>Announcements</h3>
-                    <div>
-                        <legend>Site Maintenance</legend>
-                        <p>
-                            This site goes down whenever Github performs
-                            maintenance.
-                        </p>
-                    </div>
-                    <div>
-                        <legend>Community Share Day</legend>
-                        <p>Have fun sharing!</p>
-                    </div>
-                    <div>
-                        <legend>Updated Privacy Policy</legend>
-                        <p>Have some privacy.</p>
-                    </div>
-                </div>
-                <div class="trending">
-                    <legend>Trending</legend>
-                    <div>
-                        <legend>@SL477</legend>
-                        <p>Site Builder</p>
-                    </div>
-                </div>
-            </aside>
+            </div>
         </div>
     </body>
 </html>

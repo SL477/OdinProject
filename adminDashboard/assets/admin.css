@@ -1,0 +1,39 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.mainContentContainer {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.headerSecondRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.headerFirstRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.headerFirstRowRight {
+    text-align: right;
+}
+
+.btns {
+    text-align: right;
+}
+
+/* Make things responsive*/
+@media screen and (max-width: 600px) {
+    .mainContentContainer {
+        display: block;
+    }
+}
