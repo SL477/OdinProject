@@ -1,6 +1,10 @@
+:root {
+    --nav-blue: #298fd4;
+}
+
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 125px auto;
 }
 
 .projects {
@@ -29,6 +33,19 @@
 
 .btns {
     text-align: right;
+}
+
+nav {
+    background-color: var(--nav-blue);
+    color: white;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    display: block;
 }
 
 /* Make things responsive*/
