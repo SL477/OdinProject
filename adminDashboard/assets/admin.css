@@ -20,6 +20,7 @@
 .headerSecondRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid darkgray;
 }
 
 .headerFirstRow {
@@ -31,8 +32,15 @@
     text-align: right;
 }
 
+.headerFirstRowRight img {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .headerFirstRowRight span {
     font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .headerFirstRow input {
@@ -41,6 +49,9 @@
 
 .btns {
     text-align: right;
+    vertical-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 nav {
@@ -60,6 +71,30 @@ nav a {
     display: inline-block;
     height: 100%;
     vertical-align: middle;
+}
+
+.headerSecondRowLeft {
+    display: grid;
+    grid-template-columns: 130px auto;
+}
+
+.headerSecondRowLeft h1 {
+    font-size: 1.5em;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0em;
+    margin-inline-end: 0em;
+}
+
+.btns button {
+    background-color: var(--nav-blue);
+    color: white;
+    border-radius: 15px;
+    height: 25px;
+    width: 75px;
+    border-width: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 /* Make things responsive*/
