@@ -137,4 +137,41 @@ main {
     .mainContentContainer {
         display: block;
     }
+
+    .projects {
+        grid-template-columns: 1fr;
+    }
+
+    .headerSecondRowLeft {
+        display: grid;
+        grid-template-columns: 65px 1fr;
+    }
+
+    .headerSecondRow img {
+        width: 64px;
+    }
+
+    .headerFirstRow input {
+        display: block;
+    }
+
+    .headerFirstRow {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .headerFirstRowRight {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .headerFirstRowRight img {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .headerFirstRowRight span {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 }
