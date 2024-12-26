@@ -132,6 +132,42 @@ main {
     margin-right: 5px;
 }
 
+.announcements {
+    border: 1px solid darkgray;
+    border-radius: 5px;
+}
+
+.announcements legend {
+    font-weight: bold;
+}
+
+.announcements p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0em;
+    margin-inline-end: 0em;
+    margin-bottom: 1em;
+}
+
+.trending {
+    border: 1px solid darkgray;
+    border-radius: 5px;
+}
+
+.trending > div {
+    display: grid;
+    grid-template-columns: 40px auto;
+}
+
+.trending p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0em;
+    margin-inline-end: 0em;
+    margin-bottom: 1em;
+    color: #444444;
+}
+
 /* Make things responsive*/
 @media screen and (max-width: 600px) {
     .mainContentContainer {
