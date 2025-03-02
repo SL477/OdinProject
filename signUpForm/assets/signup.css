@@ -15,19 +15,21 @@
 }
 
 .column75 {
-    float: left;
-    width: 60%;
+    /* float: left;
+    width: 60%; */
+    flex: 60%;
     margin-top: auto;
     margin-bottom: auto;
     padding-left: 5%;
     padding-bottom: 1%;
     padding-top: 1%;
-    background-color: whitesmoke;
+    background-color: light-dark(whitesmoke, black);
 }
 
 .column25 {
-    float: left;
-    width: 40%;
+    /* float: left;
+    width: 40%; */
+    flex: 40%;
     margin-top: auto;
     margin-bottom: auto;
     padding-left: 5%;
@@ -58,7 +60,7 @@ html {
 .card-image {
     z-index: -1;
     width: 100%;
-    position: absolute;
+    /* position: absolute; */
 }
 
 /* Get the text next to the logo*/
@@ -83,6 +85,7 @@ html {
 .banner > h1 {
     padding-left: 5px;
     padding-top: 10px;
+    color: black;
 }
 
 .card-image > figure > figcaption {
@@ -102,7 +105,7 @@ label {
 }
 
 .formEntry {
-    background-color: white;
+    background-color: light-dark(white, black);
     /* -webkit-box-shadow: 0px 5px 15px -5px #000000;
     box-shadow: 0px 5px 15px -5px #000000; */
     /* padding: 2px; */
@@ -157,6 +160,10 @@ input:focus {
     color: red;
 }
 
+.row {
+    display: flex;
+}
+
 /* Make things responsive*/
 @media screen and (max-width: 600px) {
     .column25,
@@ -164,9 +171,9 @@ input:focus {
         width: 100%;
     }
 
-    .card-image {
-        position: relative;
-    }
+    /* .card-image {
+        position: relative; 
+    } */
 
     .formEntry {
         display: block;
@@ -178,5 +185,9 @@ input:focus {
 
     .column75 {
         padding-bottom: 2rem;
+    }
+
+    .row {
+        display: block;
     }
 }

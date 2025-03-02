@@ -8,6 +8,7 @@ table {
 
 td {
     border: 1px solid black;
+    color: black;
 }
 
 table button {
@@ -25,15 +26,18 @@ table button {
 
 .operator {
     background-color: orange;
+    color: black;
 }
 
 .number {
     background-color: lightskyblue;
+    color: black;
 }
 
 #dot,
 #equals {
     background-color: gold;
+    color: black;
 }
 
 #num1,
@@ -41,4 +45,5 @@ table button {
 #result {
     text-align: right;
     background-color: lightgrey;
+    color: black;
 }

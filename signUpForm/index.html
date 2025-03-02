@@ -4,26 +4,23 @@
         <meta charset="utf-8" />
         <title>Sign-up Form</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-            href="https://link477.com/assets/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <script
-            src="https://link477.com/assets/js/bootstrap.bundle.min.js"
-            async
-        ></script>
-        <script src="https://link477.com/assets/js/components/my-navbar.js"></script>
+        <script src="https://link477.com/assets/js/components/my-navbar2.js"></script>
         <link rel="icon" href="https://link477.com/assets/images/link477.png" />
         <link href="./assets/signup.css" rel="stylesheet" />
         <script src="./assets/signup.js" async></script>
+        <link
+            rel="stylesheet"
+            href="https://link477.com/assets/css/my-navbar.css"
+        />
+        <script
+            src="https://link477.com/assets/js/dark_mode_picker.js"
+            async=""
+        ></script>
+        <meta name="color-scheme" content="light dark" />
     </head>
     <body>
         <header>
             <my-navbar></my-navbar>
-            <br />
-            <br />
-            <br />
-            <br />
         </header>
         <div class="row">
             <div class="column25">
@@ -68,7 +65,7 @@
 
                 <form>
                     <div class="formEntry">
-                        <fieldset>
+                        <div>
                             <label for="firstName">First Name</label>
                             <input
                                 type="text"
@@ -79,8 +76,8 @@
                                 onchange="onChangeValidationMessage(this)"
                             />
                             <p class="validationMessage"></p>
-                        </fieldset>
-                        <fieldset>
+                        </div>
+                        <div>
                             <label for="lastName">Last Name</label>
                             <input
                                 type="text"
@@ -91,8 +88,8 @@
                                 onchange="onChangeValidationMessage(this)"
                             />
                             <p class="validationMessage"></p>
-                        </fieldset>
-                        <fieldset>
+                        </div>
+                        <div>
                             <label for="email" class="required">Email</label>
                             <input
                                 id="email"
@@ -103,8 +100,8 @@
                                 onchange="onChangeValidationMessage(this)"
                             />
                             <p class="validationMessage"></p>
-                        </fieldset>
-                        <fieldset>
+                        </div>
+                        <div>
                             <label for="phone">Phone Number</label>
                             <input
                                 id="phone"
@@ -114,8 +111,8 @@
                                 onchange="onChangeValidationMessage(this)"
                             />
                             <p class="validationMessage"></p>
-                        </fieldset>
-                        <fieldset>
+                        </div>
+                        <div>
                             <label for="password" class="required"
                                 >Password</label
                             >
@@ -128,8 +125,8 @@
                                 placeholder="Password"
                             />
                             <p class="validationMessage"></p>
-                        </fieldset>
-                        <fieldset>
+                        </div>
+                        <div>
                             <label for="passwordConfirm" class="required"
                                 >Confirm Password</label
                             >
@@ -142,7 +139,7 @@
                                 placeholder="Password"
                             />
                             <p class="validationMessage"></p>
-                        </fieldset>
+                        </div>
                     </div>
 
                     <input id="submit" type="submit" value="Create Account" />

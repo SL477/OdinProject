@@ -4,25 +4,23 @@
         <meta charset="utf-8" />
         <title>Calth Type 20 Locomotive</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-            href="https://link477.com/assets/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <script
-            src="https://link477.com/assets/js/bootstrap.bundle.min.js"
-            async
-        ></script>
-        <script src="https://link477.com/assets/js/components/my-navbar.js"></script>
+        <script src="https://link477.com/assets/js/components/my-navbar2.js"></script>
         <script src="./assets/script/productLanding.js" defer></script>
         <link rel="icon" href="https://link477.com/assets/images/link477.png" />
         <link href="./assets/css/productLanding.css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://link477.com/assets/css/my-navbar.css"
+        />
+        <script
+            src="https://link477.com/assets/js/dark_mode_picker.js"
+            async=""
+        ></script>
+        <meta name="color-scheme" content="light dark" />
     </head>
     <body>
         <header>
             <my-navbar></my-navbar>
-            <br />
-            <br />
-            <br />
             <div class="row">
                 <div class="column">
                     <h1>Calth Type 20 Locomotive</h1>
@@ -36,8 +34,7 @@
                     <button
                         type="button"
                         class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#infoModal"
+                        id="infoModalFirst"
                     >
                         Sign up
                     </button>
@@ -122,8 +119,7 @@
                         <button
                             type="button"
                             class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#infoModal"
+                            id="infoModalButton"
                         >
                             Sign up
                         </button>
@@ -136,39 +132,14 @@
             <span id="currentYear"></span>
         </footer>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="infoModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">How to get one of your own</h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-bs-dismiss="modal"
-                            aria-label="close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            I got the shell from Budget Modal Railways. The
-                            chassis is from Kato. The paints are Citadel
-                            (Ultramarines Blue over Macragge Blue for the most
-                            part).
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-seconday"
-                            data-bs-dismiss="modal"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <dialog>
+            <button type="button" autofocus aria-label="Close.">&times;</button>
+            <h5 class="modal-title">How to get one of your own</h5>
+            <p>
+                I got the shell from Budget Modal Railways. The chassis is from
+                Kato. The paints are Citadel (Ultramarines Blue over Macragge
+                Blue for the most part).
+            </p>
+        </dialog>
     </body>
 </html>
