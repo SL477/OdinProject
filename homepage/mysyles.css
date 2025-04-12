@@ -71,12 +71,8 @@
 }
 
 @media screen and (max-width: 900px) and (min-width: 601px) {
-    /* .top-section {
-        display: block;
-    } */
     .title-pic img {
         transform: translate(10%, 10%);
-        /* display: inline-block; */
     }
 
     .about-me {
@@ -88,21 +84,7 @@
         display: inline-block;
     }
 
-    /* .top-section {
-        display: inline;
-        width: 400px;
+    .title-text {
+        transform: translate(100%, -600%);
     }
-
-    .title-pic-container,
-    .title-pic img,
-    .about-me,
-    .about-me-inner,
-    .about-me p,
-    .about-me div {
-        display: inline-block;
-    }
-
-    .about-me h2 {
-        display: inline;
-    } */
 }
