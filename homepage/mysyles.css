@@ -23,10 +23,23 @@
 
 .title-pic {
     position: relative;
+    padding: 1rem;
 }
 
 .about-me {
     flex: 60%;
+    padding: 1rem;
+    color: black;
+}
+
+.about-me-inner {
+    background-color: white;
+    color: black;
+    padding: 1rem;
+}
+
+.about-me-links {
+    text-align: right;
 }
 
 .top-section {
@@ -47,4 +60,49 @@
     .top-section {
         display: block;
     }
+
+    .about-me-links {
+        text-align: center;
+    }
+
+    .top-clip {
+        height: 25%;
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 601px) {
+    /* .top-section {
+        display: block;
+    } */
+    .title-pic img {
+        transform: translate(10%, 10%);
+        /* display: inline-block; */
+    }
+
+    .about-me {
+        transform: translate(-10%, 50%);
+        z-index: 1;
+    }
+
+    .about-me h2 {
+        display: inline-block;
+    }
+
+    /* .top-section {
+        display: inline;
+        width: 400px;
+    }
+
+    .title-pic-container,
+    .title-pic img,
+    .about-me,
+    .about-me-inner,
+    .about-me p,
+    .about-me div {
+        display: inline-block;
+    }
+
+    .about-me h2 {
+        display: inline;
+    } */
 }
