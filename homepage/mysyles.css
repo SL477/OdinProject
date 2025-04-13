@@ -24,12 +24,10 @@
 
 .title-pic {
     position: relative;
-    padding: 1rem;
 }
 
 .about-me {
     flex: 60%;
-    padding: 1rem;
     color: black;
     margin-top: auto;
     margin-bottom: auto;
@@ -50,7 +48,6 @@
 
 .top-section {
     display: flex;
-    /* align-items: flex-start; */
 }
 
 .top-clip {
@@ -122,7 +119,11 @@ footer {
     padding-top: 1rem;
 }
 
-@media screen and (max-width: 600px) {
+.contact-me-img {
+    text-align: right;
+}
+
+@media screen and (max-width: 804px) {
     .top-section {
         display: block;
     }
@@ -156,17 +157,13 @@ footer {
     .project-tile {
         padding-top: 0.5rem;
     }
+
+    .contact-me-img {
+        text-align: left;
+    }
 }
 
-@media screen and (max-width: 900px) and (min-width: 601px) {
-    /* .title-pic img {
-        transform: translate(10%, 10%);
-    }
-
-    .about-me {
-        transform: translate(-10%, 50%);
-        z-index: 1;
-    } */
+@media screen and (max-width: 900px) and (min-width: 805px) {
     .top-section {
         display: flex;
         align-items: flex-end;
@@ -192,5 +189,9 @@ footer {
 
     .project-container {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-me-img {
+        text-align: left;
     }
 }
