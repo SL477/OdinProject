@@ -71,7 +71,7 @@
 .project-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 1rem;
 }
 
 .border-image {
@@ -186,7 +186,8 @@ footer {
     }
 
     .title-text {
-        transform: translate(100%, -600%);
+        transform: translate(120%, -900%);
+        z-index: 1000;
     }
 
     .project-container {
