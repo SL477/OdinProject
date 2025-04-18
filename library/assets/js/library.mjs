@@ -59,7 +59,7 @@ function displayLibrary() {
             libraryLI.appendChild(removeBookBtn);
             const toggleReadBtn = document.createElement('button');
             toggleReadBtn.type = 'button';
-            toggleReadBtn.textContent = `Mark as ${item.read ? '' : 'un'}read`;
+            toggleReadBtn.textContent = `Mark as ${item.read ? 'un' : ''}read`;
             toggleReadBtn.classList = 'btn btn-primary';
             toggleReadBtn.addEventListener('click', ToggleRead);
             libraryLI.appendChild(toggleReadBtn);
