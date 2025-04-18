@@ -24,9 +24,23 @@ function addBookToLibrary(title, author, pages, read) {
 function RemoveBook(ev) {
     const removeId = ev.currentTarget.parentElement.getAttribute('data-id');
     const removeIdx = myLibrary.findIndex((i) => i.id === removeId);
-    console.log(removeId, removeIdx);
-    myLibrary.splice(removeIdx, 1);
-    displayLibrary();
+    if (removeId && removeIdx > -1) {
+        myLibrary.splice(removeIdx, 1);
+        displayLibrary();
+    }
+}
+
+/**
+ * Toggle a book's read status
+ * @param {MouseEvent} ev
+ */
+function ToggleRead(ev) {
+    const bookId = ev.currentTarget.parentElement.getAttribute('data-id');
+    const bookIdx = myLibrary.findIndex((i) => i.id === bookId);
+    if (bookId && bookIdx > -1) {
+        myLibrary[bookIdx].toggleRead();
+        displayLibrary();
+    }
 }
 
 /**Display the books in the library */
@@ -43,6 +57,12 @@ function displayLibrary() {
             removeBookBtn.classList = 'btn btn-danger';
             removeBookBtn.addEventListener('click', RemoveBook);
             libraryLI.appendChild(removeBookBtn);
+            const toggleReadBtn = document.createElement('button');
+            toggleReadBtn.type = 'button';
+            toggleReadBtn.textContent = `Mark as ${item.read ? '' : 'un'}read`;
+            toggleReadBtn.classList = 'btn btn-primary';
+            toggleReadBtn.addEventListener('click', ToggleRead);
+            libraryLI.appendChild(toggleReadBtn);
             libraryUL.appendChild(libraryLI);
         }
     }

@@ -21,4 +21,8 @@ export class Book {
     info() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? 'read' : 'not read yet'}`;
     }
+
+    toggleRead() {
+        this.read = !this.read;
+    }
 }
