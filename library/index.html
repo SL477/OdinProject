@@ -17,6 +17,11 @@
         <meta name="color-scheme" content="light dark" />
         <script src="assets/js/book.mjs" type="module" defer></script>
         <script src="assets/js/library.mjs" type="module" defer></script>
+        <link
+            rel="stylesheet"
+            href="https://link477.com/assets/css/styles.css"
+        />
+        <link rel="stylesheet" href="assets/styles/library.css" />
     </head>
     <body>
         <header>
@@ -25,6 +30,57 @@
         <main>
             <h1>My Library</h1>
             <ul id="library"></ul>
+            <button class="btn btn-primary" type="button" id="openNewBook">
+                Add to Library
+            </button>
         </main>
+        <dialog id="newBook">
+            <div class="dialog-header">
+                <h2>New Book</h2>
+                <button
+                    type="button"
+                    aria-label="Close"
+                    class="btn btn-danger"
+                    id="newBookClose"
+                >
+                    &times;
+                </button>
+            </div>
+            <form method="dialog" id="newBookForm">
+                <label for="author"
+                    >Author:
+                    <input
+                        type="text"
+                        name="author"
+                        id="author"
+                        class="form-control"
+                    />
+                </label>
+                <label for="title"
+                    >Title:
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        class="form-control"
+                    />
+                </label>
+                <label for="pages"
+                    >Number of Pages:
+                    <input
+                        type="number"
+                        id="pages"
+                        name="pages"
+                        class="form-control"
+                    />
+                </label>
+                <label for="read"
+                    >Read?:
+                    <input type="checkbox" id="read" name="read" />
+                </label>
+                <br />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+        </dialog>
     </body>
 </html>
