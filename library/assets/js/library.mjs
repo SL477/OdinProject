@@ -17,17 +17,38 @@ function addBookToLibrary(title, author, pages, read) {
     myLibrary.push(new Book(title, author, pages, read));
 }
 
+/**
+ * Remove a book
+ * @param {MouseEvent} ev
+ */
+function RemoveBook(ev) {
+    const removeId = ev.currentTarget.parentElement.getAttribute('data-id');
+    const removeIdx = myLibrary.findIndex((i) => i.id === removeId);
+    console.log(removeId, removeIdx);
+    myLibrary.splice(removeIdx, 1);
+    displayLibrary();
+}
+
+/**Display the books in the library */
 function displayLibrary() {
     if (libraryUL) {
         libraryUL.innerHTML = '';
         for (const item of myLibrary) {
             const libraryLI = document.createElement('li');
             libraryLI.textContent = item.info();
+            libraryLI.setAttribute('data-id', item.id);
+            const removeBookBtn = document.createElement('button');
+            removeBookBtn.type = 'button';
+            removeBookBtn.textContent = 'Remove';
+            removeBookBtn.classList = 'btn btn-danger';
+            removeBookBtn.addEventListener('click', RemoveBook);
+            libraryLI.appendChild(removeBookBtn);
             libraryUL.appendChild(libraryLI);
         }
     }
 }
 
+/**Display the library and add the event listeners */
 function main() {
     addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
     displayLibrary();
