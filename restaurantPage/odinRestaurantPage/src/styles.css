@@ -1,0 +1,44 @@
+ul {
+  padding-inline-start: 0;
+}
+
+body {
+  background-color: navy;
+  color: aliceblue;
+}
+
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#content img {
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+  display: block;
+}
+
+nav li {
+  list-style-type: none;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.menu {
+  list-style-type: none;
+}
+
+@media screen and (max-width: 800px) {
+  #content {
+    max-width: -webkit-calc(800px - (30px));
+    max-width: calc(800px - (30px));
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
