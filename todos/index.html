@@ -16,11 +16,78 @@
         ></script>
         <meta name="color-scheme" content="light dark" />
         <link rel="stylesheet" href="./assets/styles/todos.css" />
+        <link
+            rel="stylesheet"
+            href="https://link477.com/assets/css/styles.css"
+        />
+        <script src="./assets/js/main.mjs" type="module"></script>
     </head>
     <body>
         <header>
             <my-navbar></my-navbar>
         </header>
-        <main>TODOs</main>
+        <main>
+            <h1 class="centertext">TODOs</h1>
+            <button type="button" class="btn btn-primary" id="todoAddBtn">
+                Add TODO
+            </button>
+        </main>
+        <!--Add/Edit TODO-->
+        <dialog id="todoForm">
+            <form method="dialog" id="todoFormFm">
+                <button
+                    type="reset"
+                    aria-label="Close"
+                    id="todoCloseBtn"
+                    class="btn btn-danger"
+                >
+                    &times;
+                </button>
+                <h2 class="centertext">Add Todo</h2>
+                <label for="todoTitle"
+                    >Title
+                    <input
+                        type="text"
+                        name="title"
+                        id="todoTitle"
+                        class="form-control"
+                    />
+                </label>
+                <label for="todoDescription"
+                    >Description
+                    <textarea
+                        type="text"
+                        name="description"
+                        id="todoDescription"
+                        class="form-control"
+                        rows="10"
+                    ></textarea>
+                </label>
+                <label for="todoDueDate"
+                    >Due Date
+                    <input
+                        type="date"
+                        name="dueDate"
+                        id="todoDueDate"
+                        class="form-control"
+                    />
+                </label>
+                <label for="todoPriority"
+                    >Priority
+                    <input
+                        type="number"
+                        name="priority"
+                        id="todoPriority"
+                        class="form-control"
+                    />
+                </label>
+                <label for="todoIsDone"
+                    >Is Done
+                    <input type="checkbox" name="isDone" id="todoIsDone" />
+                </label>
+                <br />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </dialog>
     </body>
 </html>

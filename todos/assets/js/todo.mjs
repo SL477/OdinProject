@@ -13,6 +13,5 @@ export default class TODO {
         this.dueDate = dueDate;
         this.priority = priority;
         this.isDone = isDone;
-        this.project = project;
     }
 }
