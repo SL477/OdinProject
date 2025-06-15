@@ -90,10 +90,15 @@
                         class="form-control"
                     />
                 </label>
-                <label for="todoIsDone"
-                    >Is Done
-                    <input type="checkbox" name="isDone" id="todoIsDone" />
+                <label for="todoStatusSel"
+                    >Status
+                    <select
+                        name="status"
+                        id="todoStatusSel"
+                        class="form-control"
+                    ></select>
                 </label>
+                <input type="hidden" name="id" id="todoId" />
                 <br />
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </form>

@@ -5,13 +5,15 @@ export default class TODO {
      * @param {string} description
      * @param {date} dueDate
      * @param {number} priority
-     * @param {boolean} isDone
+     * @param {string} status
+     * @param {string} id
      */
-    constructor(title, description, dueDate, priority, isDone) {
+    constructor(title, description, dueDate, priority, status, id) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.isDone = isDone;
+        this.status = status;
+        this.id = id;
     }
 }

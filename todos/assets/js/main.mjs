@@ -12,6 +12,8 @@ const projectFormFm = document.getElementById('projectFormFm');
 const currentProjectSel = document.getElementById('currentProjectSel');
 const saveBtn = document.getElementById('saveBtn');
 let projects = [];
+let currentProject = '';
+const defaultStatuses = ['TODO', 'In Progress', 'Done'];
 
 if (todoAddBtn && todoForm && todoCloseBtn) {
     todoAddBtn.addEventListener('click', () => todoForm.showModal());
@@ -30,19 +32,50 @@ if (saveBtn) {
     });
 }
 
+if (currentProjectSel) {
+    currentProjectSel.addEventListener('change', (e) => {
+        const val = e.target.value;
+        console.log('currentProjectSel val', val);
+        setCurrentProject(val);
+    });
+}
+
 //#region TODO Form
 if (todoFormFm) {
     todoFormFm.addEventListener('submit', () => {
+        let isNew = false;
         const todoData = new FormData(todoFormFm);
         // console.log(Object.fromEntries(todoData));
+        let id = todoData.get('id');
+        if (!id || id === '') {
+            id = crypto.randomUUID();
+            isNew = true;
+        }
         const newTodo = new TODO(
             todoData.get('title'),
             todoData.get('description'),
             todoData.get('dueDate'),
             todoData.get('priority'),
-            todoData.get('isDone')
+            todoData.get('status'),
+            id
         );
-        console.log(newTodo);
+        // console.log(newTodo);
+        const curProject = getCurrentProject();
+        if (curProject) {
+            if (isNew) {
+                curProject.todos.push(newTodo);
+            } else {
+                const getTodoIdx = curProject.todos.findIndex(
+                    (t) => t.id === id
+                );
+                if (getTodoIdx > -1) {
+                    curProject.todos[getTodoIdx] = newTodo;
+                } else {
+                    curProject.todos.push(newTodo);
+                }
+            }
+            console.log(curProject);
+        }
     });
 }
 //#endregion
@@ -61,14 +94,17 @@ if (projectFormFm) {
             projectData.get('code'),
             projectData.get('notes'),
             [],
-            id
+            id,
+            []
         );
         console.log(newProject);
         if (isNew) {
+            newProject.statuses = defaultStatuses;
             projects.push(newProject);
         } else {
             const projectIdx = projects.indexOf((p) => p.id === id);
             newProject.todos = projects[projectIdx].todos;
+            newProject.statuses = projects[projectIdx].statuses;
             projects[projectIdx] = newProject;
         }
         displayCurrentProjects();
@@ -89,6 +125,41 @@ function displayCurrentProjects() {
         }
     }
 }
+
+/**
+ * Get the current project
+ * @returns {Project|null}
+ */
+function getCurrentProject() {
+    const projectIdx = projects.findIndex((p) => p.id === currentProject);
+    if (projectIdx > -1) {
+        return projects[projectIdx];
+    }
+    return null;
+}
+
+function updateTodoStatuses() {
+    const todoStatusSel = document.getElementById('todoStatusSel');
+    const curProject = getCurrentProject();
+    if (curProject && todoStatusSel) {
+        todoStatusSel.innerHTML = '';
+        for (const stat of curProject.statuses) {
+            const opt = document.createElement('option');
+            opt.value = stat;
+            opt.text = stat;
+            todoStatusSel.appendChild(opt);
+        }
+    }
+}
+
+/**
+ * Set the current project
+ * @param {string} projectID
+ */
+function setCurrentProject(projectID) {
+    currentProject = projectID;
+    updateTodoStatuses();
+}
 //#endregion
 
 //#region On Load
@@ -100,10 +171,19 @@ function loadProjects() {
     if (storedProjects) {
         projects = JSON.parse(storedProjects);
     } else {
-        projects = [new Project('Default', '', [])];
+        projects = [
+            new Project(
+                'Default',
+                '',
+                [],
+                crypto.randomUUID(),
+                defaultStatuses
+            ),
+        ];
     }
     console.log(projects);
     displayCurrentProjects();
+    setCurrentProject(projects[0].id);
 }
 loadProjects();
 //#endregion
