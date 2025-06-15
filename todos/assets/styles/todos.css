@@ -1,0 +1,22 @@
+#kanbanBoard {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 5px;
+}
+
+.kanbanColumn {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    overflow-y: scroll;
+    max-height: 75%;
+}
+
+.todoTask {
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+body {
+    overflow-y: hidden;
+}

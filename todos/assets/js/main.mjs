@@ -11,6 +11,7 @@ const projectCloseBtn = document.getElementById('projectCloseBtn');
 const projectFormFm = document.getElementById('projectFormFm');
 const currentProjectSel = document.getElementById('currentProjectSel');
 const saveBtn = document.getElementById('saveBtn');
+const kanbanBoard = document.getElementById('kanbanBoard');
 let projects = [];
 let currentProject = '';
 const defaultStatuses = ['TODO', 'In Progress', 'Done'];
@@ -37,6 +38,7 @@ if (currentProjectSel) {
         const val = e.target.value;
         console.log('currentProjectSel val', val);
         setCurrentProject(val);
+        displayKanban();
     });
 }
 
@@ -76,6 +78,8 @@ if (todoFormFm) {
             }
             console.log(curProject);
         }
+        displayKanban();
+        todoFormFm.reset();
     });
 }
 //#endregion
@@ -108,6 +112,7 @@ if (projectFormFm) {
             projects[projectIdx] = newProject;
         }
         displayCurrentProjects();
+        projectFormFm.reset();
     });
 }
 
@@ -162,6 +167,45 @@ function setCurrentProject(projectID) {
 }
 //#endregion
 
+//#region Display Kanban
+function displayKanban() {
+    const curProject = getCurrentProject();
+    if (curProject && kanbanBoard) {
+        kanbanBoard.innerHTML = '';
+        for (const stat of curProject.statuses) {
+            const statDiv = document.createElement('div');
+            const statTitle = document.createElement('h2');
+            statTitle.textContent = stat;
+            statDiv.appendChild(statTitle);
+            statDiv.className = 'kanbanColumn';
+
+            // Tasks
+            const statTasks = curProject.todos.filter((t) => t.status === stat);
+            statTasks.sort((t1, t2) => t1.priority >= t2.priority);
+            for (const task of statTasks) {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'todoTask';
+                taskDiv.setAttribute('data-id', task.id);
+                const taskTitle = document.createElement('h3');
+                taskTitle.textContent = task.title;
+                taskDiv.appendChild(taskTitle);
+                const taskDesc = document.createElement('p');
+                taskDesc.textContent = task.description;
+                taskDiv.appendChild(taskDesc);
+                const taskDue = document.createElement('p');
+                taskDue.innerHTML = `Due: <time datetime="${task.dueDate}">${new Date(task.dueDate).toLocaleDateString()}</time>`;
+                taskDiv.appendChild(taskDue);
+
+                statDiv.appendChild(taskDiv);
+            }
+
+            kanbanBoard.appendChild(statDiv);
+        }
+    }
+}
+
+//#endregion
+
 //#region On Load
 /**
  * Load projects
@@ -184,6 +228,7 @@ function loadProjects() {
     console.log(projects);
     displayCurrentProjects();
     setCurrentProject(projects[0].id);
+    displayKanban();
 }
 loadProjects();
 //#endregion
