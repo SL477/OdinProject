@@ -31,6 +31,9 @@
             <button type="button" class="btn btn-primary" id="todoAddBtn">
                 Add TODO
             </button>
+            <button type="button" class="btn btn-primary" id="projectAddBtn">
+                Add Project
+            </button>
         </main>
         <!--Add/Edit TODO-->
         <dialog id="todoForm">
@@ -56,7 +59,6 @@
                 <label for="todoDescription"
                     >Description
                     <textarea
-                        type="text"
                         name="description"
                         id="todoDescription"
                         class="form-control"
@@ -86,7 +88,40 @@
                     <input type="checkbox" name="isDone" id="todoIsDone" />
                 </label>
                 <br />
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+        </dialog>
+        <!-- Add/ Edit Project-->
+        <dialog id="projectForm">
+            <form id="projectFormFm" method="dialog">
+                <button
+                    type="reset"
+                    aria-label="Close"
+                    id="projectCloseBtn"
+                    class="btn btn-danger"
+                >
+                    &times;
+                </button>
+                <h2 class="centertext">Add Project</h2>
+                <label for="projectCode"
+                    >Code
+                    <input
+                        type="text"
+                        name="code"
+                        id="projectCode"
+                        class="form-control"
+                    />
+                </label>
+                <label for="projectNotes"
+                    >Notes
+                    <textarea
+                        name="notes"
+                        id="projectNotes"
+                        class="form-control"
+                        rows="10"
+                    ></textarea>
+                </label>
+                <input type="submit" value="Submit" class="btn btn-primary" />
             </form>
         </dialog>
     </body>
