@@ -34,6 +34,13 @@
             <button type="button" class="btn btn-primary" id="projectAddBtn">
                 Add Project
             </button>
+            <button type="button" class="btn btn-primary" id="saveBtn">
+                Save
+            </button>
+            <label for="currentProjectSel"
+                >Current Project:
+                <select id="currentProjectSel" name="currentProject"></select>
+            </label>
         </main>
         <!--Add/Edit TODO-->
         <dialog id="todoForm">
@@ -121,6 +128,7 @@
                         rows="10"
                     ></textarea>
                 </label>
+                <input type="hidden" name="id" id="projectId" />
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </form>
         </dialog>

@@ -5,10 +5,12 @@ export default class Project {
      * @param {string} code
      * @param {string} notes
      * @param {TODO[]} todos
+     * @param {string} id
      */
-    constructor(code, notes, todos) {
+    constructor(code, notes, todos, id) {
         this.code = code;
         this.notes = notes;
         this.todos = todos;
+        this.id = id;
     }
 }
