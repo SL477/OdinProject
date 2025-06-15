@@ -80,6 +80,8 @@ if (todoFormFm) {
         }
         displayKanban();
         todoFormFm.reset();
+        const taskTitleH2 = document.querySelector('#todoFormFm h2');
+        taskTitleH2.textContent = 'Add Todo';
     });
 }
 //#endregion
@@ -195,12 +197,57 @@ function displayKanban() {
                 const taskDue = document.createElement('p');
                 taskDue.innerHTML = `Due: <time datetime="${task.dueDate}">${new Date(task.dueDate).toLocaleDateString()}</time>`;
                 taskDiv.appendChild(taskDue);
+                const taskEditBtn = document.createElement('button');
+                taskEditBtn.className = 'btn btn-primary';
+                taskEditBtn.type = 'button';
+                taskEditBtn.textContent = 'Edit';
+                taskEditBtn.addEventListener('click', () =>
+                    showEditTask(task.id)
+                );
+
+                taskDiv.appendChild(taskEditBtn);
 
                 statDiv.appendChild(taskDiv);
             }
 
             kanbanBoard.appendChild(statDiv);
         }
+    }
+}
+
+/**
+ * Show the edit form
+ * @param {string} taskID
+ */
+function showEditTask(taskID) {
+    if (todoForm) {
+        // Get the task info
+        const curProject = getCurrentProject();
+        const taskIdx = curProject.todos.findIndex((t) => t.id === taskID);
+        if (taskIdx > -1) {
+            const task = curProject.todos[taskIdx];
+            const todoTitle = document.getElementById('todoTitle');
+            todoTitle.value = task.title;
+
+            const taskTitleH2 = document.querySelector('#todoFormFm h2');
+            taskTitleH2.textContent = 'Edit Todo';
+
+            const todoDescription = document.getElementById('todoDescription');
+            todoDescription.value = task.description;
+
+            const todoDueDate = document.getElementById('todoDueDate');
+            todoDueDate.value = task.dueDate;
+
+            const todoPriority = document.getElementById('todoPriority');
+            todoPriority.value = task.priority;
+
+            const todoStatusSel = document.getElementById('todoStatusSel');
+            todoStatusSel.value = task.status;
+
+            const todoId = document.getElementById('todoId');
+            todoId.value = task.id;
+        }
+        todoForm.showModal();
     }
 }
 
