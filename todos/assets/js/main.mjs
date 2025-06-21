@@ -202,6 +202,22 @@ function displayKanban() {
             statTitle.textContent = stat;
             statDiv.appendChild(statTitle);
             statDiv.className = 'kanbanColumn';
+            statDiv.addEventListener('dragover', (ev) => {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect = 'move';
+            });
+            statDiv.addEventListener('drop', (ev) => {
+                ev.preventDefault();
+                const data = ev.dataTransfer.getData('text/plain');
+                const todoIdx = curProject.todos.findIndex(
+                    (t) => t.id === data
+                );
+                if (todoIdx > -1) {
+                    curProject.todos[todoIdx].status = stat;
+                }
+                const selector = `[${'data-id'}='${data}']`;
+                ev.target.appendChild(document.querySelector(selector));
+            });
 
             // Tasks
             const statTasks = curProject.todos.filter((t) => t.status === stat);
@@ -228,6 +244,15 @@ function displayKanban() {
                 );
 
                 taskDiv.appendChild(taskEditBtn);
+
+                taskDiv.draggable = true;
+                taskDiv.addEventListener('dragstart', (ev) => {
+                    ev.dataTransfer.setData(
+                        'text/plain',
+                        ev.target.getAttribute('data-id')
+                    );
+                    ev.dataTransfer.dropEffect = 'move';
+                });
 
                 statDiv.appendChild(taskDiv);
             }
