@@ -34,6 +34,13 @@
             <button type="button" class="btn btn-primary" id="projectAddBtn">
                 Add Project
             </button>
+            <button
+                type="button"
+                class="btn btn-primary"
+                id="projectStatusesBtn"
+            >
+                Statuses
+            </button>
             <button type="button" class="btn btn-primary" id="saveBtn">
                 Save
             </button>
@@ -143,6 +150,30 @@
                     ></textarea>
                 </label>
                 <input type="hidden" name="id" id="projectId" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+        </dialog>
+        <!-- Edit Statuses -->
+        <dialog id="projectStatusForm">
+            <form id="projectStatusFormFm" method="dialog">
+                <button
+                    type="reset"
+                    aria-label="Close"
+                    id="projectStatusCloseBtn"
+                    class="btn btn-danger"
+                >
+                    &times;
+                </button>
+                <h2 class="centertext">Edit Statuses</h2>
+                <div id="projectStatusContainer"></div>
+                <button
+                    type="button"
+                    id="projectStatusAddBtn"
+                    class="btn btn-primary"
+                >
+                    Add Status
+                </button>
+                <input type="hidden" id="projectStatusCounter" name="cnt" />
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </form>
         </dialog>

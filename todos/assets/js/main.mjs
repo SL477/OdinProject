@@ -14,6 +14,15 @@ const saveBtn = document.getElementById('saveBtn');
 const kanbanBoard = document.getElementById('kanbanBoard');
 const todoDeleteBtn = document.getElementById('todoDeleteBtn');
 const curProjectNotes = document.getElementById('curProjectNotes');
+const projectStatusesBtn = document.getElementById('projectStatusesBtn');
+const projectStatusForm = document.getElementById('projectStatusForm');
+const projectStatusCloseBtn = document.getElementById('projectStatusCloseBtn');
+const projectStatusContainer = document.getElementById(
+    'projectStatusContainer'
+);
+const projectStatusCounter = document.getElementById('projectStatusCounter');
+const projectStatusFormFm = document.getElementById('projectStatusFormFm');
+const projectStatusAddBtn = document.getElementById('projectStatusAddBtn');
 let projects = [];
 let currentProject = '';
 const defaultStatuses = ['TODO', 'In Progress', 'Done'];
@@ -62,6 +71,96 @@ if (todoDeleteBtn && todoForm && todoFormFm) {
         todoForm.close();
         displayKanban();
         todoFormFm.reset();
+    });
+}
+
+if (projectStatusForm && projectStatusesBtn && projectStatusCloseBtn) {
+    projectStatusesBtn.addEventListener('click', () => {
+        projectStatusForm.showModal();
+        if (projectStatusContainer && projectStatusCounter) {
+            projectStatusContainer.innerHTML = '';
+            const curProject = getCurrentProject();
+            let cnt = 0;
+            for (const stat of curProject.statuses) {
+                addStatus(cnt, stat);
+                cnt++;
+            }
+            projectStatusCounter.value = cnt.toString();
+        }
+    });
+    projectStatusCloseBtn.addEventListener('click', () =>
+        projectStatusForm.close()
+    );
+}
+
+if (projectStatusFormFm) {
+    projectStatusFormFm.addEventListener('submit', () => {
+        const statusData = new FormData(projectStatusFormFm);
+        const statusDict = Object.fromEntries(statusData);
+        // console.log('statuses', statusDict);
+        const newStatusDict = [];
+        for (const key in statusDict) {
+            // console.log(key, statusDict[key]);
+            if (key.startsWith('status')) {
+                newStatusDict.push(statusDict[key]);
+            }
+        }
+        const curProject = getCurrentProject();
+        curProject.statuses = [...new Set(newStatusDict)];
+        displayKanban();
+    });
+}
+
+/**
+ * Remove a status control
+ * @param {number} num
+ */
+function removeStatus(num) {
+    document.getElementById(`projectStatusInputLbl${num}`).remove();
+    document.getElementById(`projectStatusRemoveBtn${num}`).remove();
+}
+
+/**
+ * Add a status to the form
+ * @param {number} cnt
+ * @param {string} stat
+ */
+function addStatus(cnt, stat) {
+    if (projectStatusContainer) {
+        const statInputID = `projectStatusInput${cnt}`;
+        const statInputLbl = document.createElement('label');
+        statInputLbl.textContent = 'Status';
+        statInputLbl.htmlFor = statInputID;
+        statInputLbl.id = `projectStatusInputLbl${cnt}`;
+
+        const statInput = document.createElement('input');
+        statInput.type = 'text';
+        statInput.name = `status${cnt}`;
+        statInput.id = statInputID;
+        statInput.value = stat;
+        statInput.className = 'form-control';
+        statInputLbl.appendChild(statInput);
+        projectStatusContainer.appendChild(statInputLbl);
+
+        const statRemove = document.createElement('button');
+        statRemove.type = 'button';
+        statRemove.className = 'btn btn-danger';
+        statRemove.textContent = 'Remove';
+        statRemove.id = `projectStatusRemoveBtn${cnt}`;
+        statRemove.addEventListener('click', () => removeStatus(cnt));
+        projectStatusContainer.appendChild(statRemove);
+
+        projectStatusContainer.appendChild(document.createElement('br'));
+    }
+}
+
+if (projectStatusAddBtn) {
+    projectStatusAddBtn.addEventListener('click', () => {
+        if (projectStatusCounter) {
+            let cnt = parseInt(projectStatusCounter.value);
+            addStatus(cnt, '');
+            projectStatusCounter.value = (cnt + 1).toString();
+        }
     });
 }
 
