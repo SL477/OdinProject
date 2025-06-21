@@ -1,0 +1,23 @@
+.kanbanColumn {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    overflow-y: scroll;
+}
+
+.todoTask {
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+@media screen and (width >= 600px) {
+    .kanbanColumn {
+        max-height: 70vh;
+    }
+
+    #kanbanBoard {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 5px;
+    }
+}

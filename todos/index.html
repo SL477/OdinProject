@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>TODOs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://link477.com/assets/js/components/my-navbar2.js"></script>
+        <link rel="icon" href="https://link477.com/assets/images/link477.png" />
+        <link
+            rel="stylesheet"
+            href="https://link477.com/assets/css/my-navbar.css"
+        />
+        <script
+            src="https://link477.com/assets/js/dark_mode_picker.js"
+            async=""
+        ></script>
+        <meta name="color-scheme" content="light dark" />
+        <link rel="stylesheet" href="./assets/styles/todos.css" />
+        <link
+            rel="stylesheet"
+            href="https://link477.com/assets/css/styles.css"
+        />
+        <script src="./assets/js/main.mjs" type="module"></script>
+    </head>
+    <body>
+        <header>
+            <my-navbar></my-navbar>
+        </header>
+        <main>
+            <h1 class="centertext">TODOs</h1>
+            <button type="button" class="btn btn-primary" id="todoAddBtn">
+                Add TODO
+            </button>
+            <button type="button" class="btn btn-primary" id="projectAddBtn">
+                Add Project
+            </button>
+            <button
+                type="button"
+                class="btn btn-primary"
+                id="projectStatusesBtn"
+            >
+                Statuses
+            </button>
+            <button type="button" class="btn btn-primary" id="saveBtn">
+                Save
+            </button>
+            <label for="currentProjectSel"
+                >Current Project:
+                <select id="currentProjectSel" name="currentProject"></select>
+            </label>
+            <br />
+            <label for="curProjectNotes"
+                >Notes
+                <textarea id="curProjectNotes" class="form-control"></textarea>
+            </label>
+            <div id="kanbanBoard"></div>
+        </main>
+        <!--Add/Edit TODO-->
+        <dialog id="todoForm">
+            <form method="dialog" id="todoFormFm">
+                <button
+                    type="reset"
+                    aria-label="Close"
+                    id="todoCloseBtn"
+                    class="btn btn-danger"
+                >
+                    &times;
+                </button>
+                <h2 class="centertext">Add Todo</h2>
+                <label for="todoTitle"
+                    >Title
+                    <input
+                        type="text"
+                        name="title"
+                        id="todoTitle"
+                        class="form-control"
+                    />
+                </label>
+                <label for="todoDescription"
+                    >Description
+                    <textarea
+                        name="description"
+                        id="todoDescription"
+                        class="form-control"
+                        rows="10"
+                    ></textarea>
+                </label>
+                <label for="todoDueDate"
+                    >Due Date
+                    <input
+                        type="date"
+                        name="dueDate"
+                        id="todoDueDate"
+                        class="form-control"
+                    />
+                </label>
+                <label for="todoPriority"
+                    >Priority
+                    <input
+                        type="number"
+                        name="priority"
+                        id="todoPriority"
+                        class="form-control"
+                    />
+                </label>
+                <label for="todoStatusSel"
+                    >Status
+                    <select
+                        name="status"
+                        id="todoStatusSel"
+                        class="form-control"
+                    ></select>
+                </label>
+                <input type="hidden" name="id" id="todoId" />
+                <br />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <button id="todoDeleteBtn" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            </form>
+        </dialog>
+        <!-- Add/ Edit Project-->
+        <dialog id="projectForm">
+            <form id="projectFormFm" method="dialog">
+                <button
+                    type="reset"
+                    aria-label="Close"
+                    id="projectCloseBtn"
+                    class="btn btn-danger"
+                >
+                    &times;
+                </button>
+                <h2 class="centertext">Add Project</h2>
+                <label for="projectCode"
+                    >Code
+                    <input
+                        type="text"
+                        name="code"
+                        id="projectCode"
+                        class="form-control"
+                    />
+                </label>
+                <label for="projectNotes"
+                    >Notes
+                    <textarea
+                        name="notes"
+                        id="projectNotes"
+                        class="form-control"
+                        rows="10"
+                    ></textarea>
+                </label>
+                <input type="hidden" name="id" id="projectId" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+        </dialog>
+        <!-- Edit Statuses -->
+        <dialog id="projectStatusForm">
+            <form id="projectStatusFormFm" method="dialog">
+                <button
+                    type="reset"
+                    aria-label="Close"
+                    id="projectStatusCloseBtn"
+                    class="btn btn-danger"
+                >
+                    &times;
+                </button>
+                <h2 class="centertext">Edit Statuses</h2>
+                <div id="projectStatusContainer"></div>
+                <button
+                    type="button"
+                    id="projectStatusAddBtn"
+                    class="btn btn-primary"
+                >
+                    Add Status
+                </button>
+                <input type="hidden" id="projectStatusCounter" name="cnt" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </form>
+        </dialog>
+    </body>
+</html>
