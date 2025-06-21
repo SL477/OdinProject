@@ -3,7 +3,6 @@
     border-radius: 5px;
     padding: 5px;
     overflow-y: scroll;
-    max-height: 75%;
 }
 
 .todoTask {
@@ -12,8 +11,8 @@
 }
 
 @media screen and (width >= 600px) {
-    body {
-        overflow-y: hidden;
+    .kanbanColumn {
+        max-height: 75vh;
     }
 
     #kanbanBoard {

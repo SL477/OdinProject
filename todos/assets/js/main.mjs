@@ -12,12 +12,16 @@ const projectFormFm = document.getElementById('projectFormFm');
 const currentProjectSel = document.getElementById('currentProjectSel');
 const saveBtn = document.getElementById('saveBtn');
 const kanbanBoard = document.getElementById('kanbanBoard');
+const todoDeleteBtn = document.getElementById('todoDeleteBtn');
 let projects = [];
 let currentProject = '';
 const defaultStatuses = ['TODO', 'In Progress', 'Done'];
 
 if (todoAddBtn && todoForm && todoCloseBtn) {
-    todoAddBtn.addEventListener('click', () => todoForm.showModal());
+    todoAddBtn.addEventListener('click', () => {
+        todoForm.showModal();
+        todoDeleteBtn.style.display = 'none';
+    });
     todoCloseBtn.addEventListener('click', () => todoForm.close());
 }
 
@@ -39,6 +43,24 @@ if (currentProjectSel) {
         console.log('currentProjectSel val', val);
         setCurrentProject(val);
         displayKanban();
+    });
+}
+
+if (todoDeleteBtn && todoForm && todoFormFm) {
+    // Delete button for TODO
+    todoDeleteBtn.addEventListener('click', () => {
+        const todoData = new FormData(todoFormFm);
+        const id = todoData.get('id');
+        const curProject = getCurrentProject();
+        if (id) {
+            const getTodoIdx = curProject.todos.findIndex((t) => t.id === id);
+            if (getTodoIdx > -1) {
+                curProject.todos.splice(getTodoIdx, 1);
+            }
+        }
+        todoForm.close();
+        displayKanban();
+        todoFormFm.reset();
     });
 }
 
@@ -247,6 +269,7 @@ function showEditTask(taskID) {
             const todoId = document.getElementById('todoId');
             todoId.value = task.id;
         }
+        todoDeleteBtn.style.display = 'inline-block';
         todoForm.showModal();
     }
 }
