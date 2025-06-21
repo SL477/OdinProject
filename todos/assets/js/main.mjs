@@ -13,6 +13,7 @@ const currentProjectSel = document.getElementById('currentProjectSel');
 const saveBtn = document.getElementById('saveBtn');
 const kanbanBoard = document.getElementById('kanbanBoard');
 const todoDeleteBtn = document.getElementById('todoDeleteBtn');
+const curProjectNotes = document.getElementById('curProjectNotes');
 let projects = [];
 let currentProject = '';
 const defaultStatuses = ['TODO', 'In Progress', 'Done'];
@@ -196,6 +197,13 @@ function displayKanban() {
     const curProject = getCurrentProject();
     if (curProject && kanbanBoard) {
         kanbanBoard.innerHTML = '';
+        if (curProjectNotes) {
+            curProjectNotes.value = curProject.notes;
+            curProjectNotes.addEventListener('change', () => {
+                curProject.notes = curProjectNotes.value;
+                console.log('change', curProject);
+            });
+        }
         for (const stat of curProject.statuses) {
             const statDiv = document.createElement('div');
             const statTitle = document.createElement('h2');

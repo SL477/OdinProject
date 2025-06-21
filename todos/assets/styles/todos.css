@@ -12,7 +12,7 @@
 
 @media screen and (width >= 600px) {
     .kanbanColumn {
-        max-height: 75vh;
+        max-height: 70vh;
     }
 
     #kanbanBoard {
