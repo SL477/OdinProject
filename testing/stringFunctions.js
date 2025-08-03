@@ -6,4 +6,13 @@ function capitalize(str) {
     return str.substring(0, 1).toUpperCase() + str.substring(1);
 }
 
-module.exports = capitalize;
+/**
+ * function that takes a string and returns it reversed
+ * @param {string} str
+ * @returns {string}
+ */
+function reverseString(str) {
+    return str.split('').reverse().join('');
+}
+
+module.exports = [capitalize, reverseString];
