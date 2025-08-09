@@ -4,7 +4,7 @@
  * @param {number} b
  * @returns {number}
  */
-function add(a, b) {
+export function add(a, b) {
     return a + b;
 }
 
@@ -14,7 +14,7 @@ function add(a, b) {
  * @param {number} b
  * @returns {number}
  */
-function subtract(a, b) {
+export function subtract(a, b) {
     return a - b;
 }
 
@@ -24,7 +24,7 @@ function subtract(a, b) {
  * @param {number} b
  * @returns {number}
  */
-function divide(a, b) {
+export function divide(a, b) {
     return a / b;
 }
 
@@ -34,13 +34,6 @@ function divide(a, b) {
  * @param {number} b
  * @returns {number}
  */
-function multiply(a, b) {
+export function multiply(a, b) {
     return a * b;
 }
-
-module.exports = {
-    add,
-    subtract,
-    divide,
-    multiply,
-};

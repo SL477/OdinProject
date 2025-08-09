@@ -1,4 +1,4 @@
-const analyzeArray = require('./analyseArray.js');
+import { analyzeArray } from './analyseArray.js';
 
 test('analyzeArray average', () => {
     expect(analyzeArray([1, 8, 3, 4, 2, 6]).average).toBe(4);

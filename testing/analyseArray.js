@@ -3,7 +3,7 @@
  * @param {number[]} arr
  * @returns {{average: number, min: number, max: number, length: number}}
  */
-function analyzeArray(arr) {
+export function analyzeArray(arr) {
     const ret = {
         average: 0,
         min: undefined,
@@ -23,5 +23,3 @@ function analyzeArray(arr) {
     ret.average = sum / ret.length;
     return ret;
 }
-
-module.exports = analyzeArray;

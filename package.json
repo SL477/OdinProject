@@ -1,6 +1,9 @@
 {
     "devDependencies": {
-        "eslint": "^9.32.0",
+        "@babel/core": "^7.28.0",
+        "@babel/preset-env": "^7.28.0",
+        "babel-jest": "^30.0.5",
+        "eslint": "^9.33.0",
         "jest": "^30.0.5",
         "prettier": "^3.6.2"
     },
