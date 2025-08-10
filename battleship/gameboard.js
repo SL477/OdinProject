@@ -104,6 +104,24 @@ export class GameBoard {
     }
 
     /**
+     * Check if all ships are sunk
+     * @returns {Boolean}
+     */
+    allSunk() {
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                const item = this.board[i][j];
+                if (item instanceof Array) {
+                    if (!item[0].isSunk()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * check the coordinates are valid
      * @param {number[2]} coordinates
      * @returns {boolean}

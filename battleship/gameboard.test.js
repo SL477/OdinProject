@@ -35,3 +35,16 @@ test('ReceiveAttack Miss', () => {
     board.placeShip(new ShipType('Submarine', 1), [0, 0], directions.DOWN);
     expect(board.receiveAttack([0, 1])).toBe('MISS');
 });
+
+test('AllSunk true', () => {
+    const board = new GameBoard();
+    board.placeShip(new ShipType('Submarine', 1), [0, 0], directions.DOWN);
+    board.receiveAttack([0, 0]);
+    expect(board.allSunk()).toBe(true);
+});
+
+test('AllSunk false', () => {
+    const board = new GameBoard();
+    board.placeShip(new ShipType('Submarine', 1), [0, 0], directions.DOWN);
+    expect(board.allSunk()).toBe(false);
+});
