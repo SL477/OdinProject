@@ -38,7 +38,7 @@ export class GameBoard {
     }
 
     /**
-     *
+     * Place a ship on the board if it is valid
      * @param {ShipType} shipType
      * @param {number[2]} coordinates
      * @param {number} direction
@@ -74,9 +74,33 @@ export class GameBoard {
         // place the ship
         const ship = new Ship(shipType.size, 0);
         for (const coordinate of coordinatesArray) {
-            this.board[coordinate[0]][coordinate[1]] = ship;
+            this.board[coordinate[0]][coordinate[1]] = [ship, false];
         }
         return true;
+    }
+
+    /**
+     * Receive an attack
+     * @param {number[2]} coordinate
+     * @returns {string}
+     */
+    receiveAttack(coordinate) {
+        if (!this._validCoordinates(coordinate)) {
+            return false;
+        }
+        const item = this.board[coordinate[0]][coordinate[1]];
+        if (item instanceof Array) {
+            item[1] = true;
+            item[0].hit();
+            if (item[0].isSunk()) {
+                return 'SUNK';
+            } else {
+                return 'HIT';
+            }
+        } else {
+            this.board[coordinate[0]][coordinate[1]] = true;
+            return 'MISS';
+        }
     }
 
     /**
