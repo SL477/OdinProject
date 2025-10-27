@@ -65,23 +65,19 @@ function drawBoard(player) {
                             if (attackResult === 'HIT') {
                                 ev.target.className = 'hit';
                                 ev.target.textContent = 'X';
-                                if (player.board.allSunk()) {
-                                    isWin = true;
-                                    msg.textContent = 'You Win!';
-                                }
                             } else {
                                 ev.target.className = 'miss';
                                 ev.target.textContent = 'M';
                             }
-                            console.log(
-                                'all sunk human?',
-                                humanPlayer.board.allSunk()
-                            );
+                            if (player.board.allSunk()) {
+                                isWin = true;
+                                msg.textContent = 'You Win!';
+                            }
+
                             if (!isWin) {
                                 // send attack to human player
                                 // need to find a cell with no text in it
                                 const emptyCells = getEmptyCells();
-                                // console.log(emptyCells);
                                 const moveNo = Math.floor(
                                     Math.random() * emptyCells.length
                                 );
@@ -89,7 +85,6 @@ function drawBoard(player) {
                                     humanPlayer.board.receiveAttack(
                                         emptyCells[moveNo]
                                     );
-                                // console.log(emptyCells[moveNo], isWin);
 
                                 const humanBoard =
                                     document.getElementById('playerBoard');
@@ -100,13 +95,14 @@ function drawBoard(player) {
                                 if (playerAttackResult === 'HIT') {
                                     humanCell.className = 'hit';
                                     humanCell.textContent = 'X';
-                                    if (humanPlayer.board.allSunk()) {
-                                        isWin = true;
-                                        msg.textContent = 'You Lost!';
-                                    }
                                 } else {
                                     humanCell.className = 'miss';
                                     humanCell.textContent = 'M';
+                                }
+
+                                if (humanPlayer.board.allSunk()) {
+                                    isWin = true;
+                                    msg.textContent = 'You Lost!';
                                 }
                             }
                         }
