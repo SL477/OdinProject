@@ -7,6 +7,18 @@
     height: 30px;*/
 }
 
+#battleshipContainer {
+    text-align: center;
+    @media screen and (width >= 600px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    table {
+        margin: 0px auto;
+    }
+}
+
 .col {
     border: 1px solid black;
     width: 30px;
@@ -77,4 +89,15 @@ th {
 
 th {
     color: black;
+}
+
+#opponentBoard {
+    td {
+        cursor: pointer;
+    }
+
+    .hit,
+    .miss {
+        cursor: auto;
+    }
 }
