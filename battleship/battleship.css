@@ -1,0 +1,103 @@
+.row {
+    display: flex;
+    /*margin-left: 50px;
+    margin-right: auto;*/
+    /*float: left;
+    width: 300px;
+    height: 30px;*/
+}
+
+#battleshipContainer {
+    text-align: center;
+    @media screen and (width >= 600px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    table {
+        margin: 0px auto;
+    }
+}
+
+.col {
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+}
+
+.flexContainer {
+    width: 300px;
+    height: 300px;
+}
+
+.hit {
+    background-color: red !important;
+}
+
+.ship {
+    background-color: black !important;
+}
+
+.miss {
+    background-color: blue !important;
+}
+
+td {
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: white !important;
+}
+
+th {
+    background-color: white !important;
+    color: black !important;
+}
+
+.center {
+    text-align: center;
+}
+
+.centerItem {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    column-gap: 50px;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+.board {
+    border: 1px solid black;
+    padding: 20px;
+    background-color: white;
+}
+
+.grid {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer {
+    display: none;
+}
+
+th {
+    color: black;
+}
+
+#opponentBoard {
+    td {
+        cursor: pointer;
+    }
+
+    .hit,
+    .miss {
+        cursor: auto;
+    }
+}

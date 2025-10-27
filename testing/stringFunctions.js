@@ -2,7 +2,7 @@
  * @param {string} str
  * @returns {string}
  */
-function capitalize(str) {
+export function capitalize(str) {
     return str.substring(0, 1).toUpperCase() + str.substring(1);
 }
 
@@ -11,8 +11,6 @@ function capitalize(str) {
  * @param {string} str
  * @returns {string}
  */
-function reverseString(str) {
+export function reverseString(str) {
     return str.split('').reverse().join('');
 }
-
-module.exports = [capitalize, reverseString];

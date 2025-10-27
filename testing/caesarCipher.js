@@ -4,7 +4,7 @@
  * @param {number} shift
  * @returns {string}
  */
-function caesarCipher(str, shift) {
+export function caesarCipher(str, shift) {
     const strToNum = {
         a: 0,
         b: 1,
@@ -83,5 +83,3 @@ function caesarCipher(str, shift) {
     }
     return ret;
 }
-
-module.exports = caesarCipher;

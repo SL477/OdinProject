@@ -1,4 +1,4 @@
-const caesarCipher = require('./caesarCipher.js');
+import { caesarCipher } from './caesarCipher.js';
 
 test('Wrapping', () => {
     expect(caesarCipher('xyz', 3)).toBe('abc');
