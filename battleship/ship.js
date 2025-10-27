@@ -21,6 +21,12 @@ export class Ship {
      * @returns {boolean}
      */
     isSunk() {
+        // console.log(
+        //     'ship is sunk',
+        //     this.numberHits,
+        //     this.length,
+        //     this.numberHits >= this.length
+        // );
         return this.numberHits >= this.length;
     }
 }

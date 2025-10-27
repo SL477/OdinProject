@@ -1,7 +1,11 @@
 const battleshipContainer = document.getElementById('battleshipContainer');
+const msg = document.getElementById('msg');
 const MAX = 9;
 import { Player } from './player.js';
 import { fleet, directions } from './gameboard.js';
+
+let humanPlayer;
+let isWin = false;
 
 /**
  * Draw the board
@@ -19,22 +23,96 @@ function drawBoard(player) {
 
     const tbody = document.createElement('tbody');
     if (player.type === 0) {
+        let rowCounter = 0;
         for (const row of player.board.board) {
             const tr = document.createElement('tr');
+            let cellCounter = 0;
             for (const cell of row) {
                 const td = document.createElement('td');
                 if (cell) {
                     td.className = 'ship';
                 }
+                td.setAttribute('data-y', rowCounter.toString());
+                td.setAttribute('data-x', cellCounter.toString());
                 tr.appendChild(td);
+                cellCounter++;
             }
             tbody.appendChild(tr);
+            rowCounter++;
         }
     } else {
         for (let i = 0; i < 10; i++) {
             const tr = document.createElement('tr');
             for (let j = 0; j < 10; j++) {
                 const td = document.createElement('td');
+                td.setAttribute('data-y', i.toString());
+                td.setAttribute('data-x', j.toString());
+                td.addEventListener(
+                    'click',
+                    (ev) => {
+                        if (!isWin) {
+                            const y = Number.parseInt(
+                                ev.target.getAttribute('data-y')
+                            );
+                            const x = Number.parseInt(
+                                ev.target.getAttribute('data-x')
+                            );
+                            const attackResult = player.board.receiveAttack([
+                                x,
+                                y,
+                            ]);
+                            // console.log('attack', ev.target, y, x, attackResult);
+                            if (attackResult === 'HIT') {
+                                ev.target.className = 'hit';
+                                ev.target.textContent = 'X';
+                                if (player.board.allSunk()) {
+                                    isWin = true;
+                                    msg.textContent = 'You Win!';
+                                }
+                            } else {
+                                ev.target.className = 'miss';
+                                ev.target.textContent = 'M';
+                            }
+                            console.log(
+                                'all sunk human?',
+                                humanPlayer.board.allSunk()
+                            );
+                            if (!isWin) {
+                                // send attack to human player
+                                // need to find a cell with no text in it
+                                const emptyCells = getEmptyCells();
+                                // console.log(emptyCells);
+                                const moveNo = Math.floor(
+                                    Math.random() * emptyCells.length
+                                );
+                                const playerAttackResult =
+                                    humanPlayer.board.receiveAttack(
+                                        emptyCells[moveNo]
+                                    );
+                                // console.log(emptyCells[moveNo], isWin);
+
+                                const humanBoard =
+                                    document.getElementById('playerBoard');
+                                const humanCell = humanBoard.querySelector(
+                                    `[data-x='${emptyCells[moveNo][1]}'][data-y='${emptyCells[moveNo][0]}']`
+                                );
+
+                                if (playerAttackResult === 'HIT') {
+                                    humanCell.className = 'hit';
+                                    humanCell.textContent = 'X';
+                                    if (humanPlayer.board.allSunk()) {
+                                        isWin = true;
+                                        msg.textContent = 'You Lost!';
+                                    }
+                                } else {
+                                    humanCell.className = 'miss';
+                                    humanCell.textContent = 'M';
+                                }
+                            }
+                        }
+                    },
+                    { once: true }
+                );
                 tr.appendChild(td);
             }
             tbody.appendChild(tr);
@@ -76,13 +154,33 @@ function randomShipPlacement(player) {
     }
 }
 
+/**
+ * Get all of the empty cells
+ * @returns {Array}
+ */
+function getEmptyCells() {
+    const emptyCells = [];
+    let rowCounter = 0;
+    for (const row of humanPlayer.board.board) {
+        let cellCounter = 0;
+        for (const cell of row) {
+            if (!cell || (cell instanceof Array && !cell[1])) {
+                emptyCells.push([rowCounter, cellCounter]);
+            }
+            cellCounter++;
+        }
+        rowCounter++;
+    }
+    return emptyCells;
+}
+
 function main() {
     if (battleshipContainer) {
-        const player = new Player(0);
+        humanPlayer = new Player(0);
         const opponent = new Player(1);
-        randomShipPlacement(player);
+        randomShipPlacement(humanPlayer);
         randomShipPlacement(opponent);
-        drawBoard(player);
+        drawBoard(humanPlayer);
         drawBoard(opponent);
     }
 }

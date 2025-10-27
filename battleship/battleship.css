@@ -23,7 +23,11 @@
 }
 
 .ship {
-    background-color: darkgrey !important;
+    background-color: black !important;
+}
+
+.miss {
+    background-color: blue !important;
 }
 
 td {
@@ -31,6 +35,12 @@ td {
     width: 30px;
     height: 30px;
     text-align: center;
+    background-color: white !important;
+}
+
+th {
+    background-color: white !important;
+    color: black !important;
 }
 
 .center {

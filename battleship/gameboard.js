@@ -108,17 +108,46 @@ export class GameBoard {
      * @returns {Boolean}
      */
     allSunk() {
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                const item = this.board[i][j];
-                if (item instanceof Array) {
-                    if (!item[0].isSunk()) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        // for (let i = 0; i < 10; i++) {
+        //     for (let j = 0; j < 10; j++) {
+        //         const item = this.board[i][j];
+        //         if (item instanceof Array) {
+        //             if (!item[0].isSunk()) {
+        //                 return false;
+        //             }
+        //         }
+        //     }
+        // }
+        // for (const ship of this.board.filter((c) => c instanceof Array)) {
+        //     console.log(ship);
+        //     if (!ship[0].isSunk()) {
+        //         console.log('sunk', false);
+        //         return false;
+        //     }
+        // }
+
+        // console.log(
+        //     'flat',
+        //     this.board
+        //         .flat(1)
+        //         .filter((c) => c instanceof Array)
+        //         .filter((s) => !s[0].isSunk()).length
+        // );
+        // for (const ship of this.board
+        //     .flat(1)
+        //     .filter((c) => c instanceof Array)) {
+        //     if (!ship[0].isSunk()) {
+        //         // console.log('sunk', false);
+        //         return false;
+        //     }
+        // }
+        // console.log('sunk', true);
+        const floatingShips = this.board
+            .flat(1)
+            .filter((c) => c instanceof Array && !c[0].isSunk()).length;
+        // console.log('floating ships', floatingShips);
+        return floatingShips <= 0;
+        // return true;
     }
 
     /**
